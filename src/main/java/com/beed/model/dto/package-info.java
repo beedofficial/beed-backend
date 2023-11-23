@@ -1,0 +1,1 @@
+package com.beed.model.dto;
