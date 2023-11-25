@@ -1,0 +1,10 @@
+services:
+  postgres:
+    image: 'postgres:15.3'
+    environment:
+      - 'POSTGRES_DB=beeddevdb'
+      - 'POSTGRES_PASSWORD=postgres'
+      - 'POSTGRES_USER=user1'
+    ports:
+      - '5432:5432'
+
