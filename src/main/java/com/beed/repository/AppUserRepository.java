@@ -14,4 +14,6 @@ public interface AppUserRepository extends JpaRepository<AppUser, Long> {
     @Query("SELECT u.rate FROM AppUser u WHERE u.id = :id")
     Optional<Double> getRateById(@Param("id") Long id);
 
+    Optional<AppUser> findAppUserByUsername(String username);
+
 }
