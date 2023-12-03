@@ -4,9 +4,9 @@ import com.beed.model.dto.AppUserDto;
 import com.beed.model.entity.AppUser;
 import com.beed.repository.AppUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+
+import static com.beed.utility.AppUserUtil.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -16,30 +16,45 @@ public class AppUserService {
     @Autowired
     AppUserRepository userRepository;
 
-    public static AppUserDto convertUserEntityToDto(AppUser user){
-        return AppUserDto.builder()
-                .id(user.getId())
-                .username(user.getUsername())
-                .name(user.getName())
-                .surname(user.getSurname())
-                .rate(user.getRate())
-                .mail(user.getMail())
-                .phone(user.getPhone())
-                .build();
-    }
-
-    public static List<AppUserDto> mapUserEntityToDto (List<AppUser> userList){
-        return userList.stream().map(AppUserService::convertUserEntityToDto).toList();
-    }
-
     public List<AppUserDto> getAllUsers(){
         List<AppUser> users = userRepository.findAll();
         return mapUserEntityToDto(users);
     }
 
-    public AppUserDto getUserByID(Long id) {
-        AppUser user = userRepository.findById(id).get();
-        return convertUserEntityToDto(user);
+    public AppUserDto getUserByID(Long id) throws Exception {
+        try{
+            AppUser user = userRepository.findById(id).get();
+            return convertUserEntityToDto(user);
+        } catch (Exception ex){
+            throw new Exception(ex.getMessage());
+        }
+    }
+
+    public void deleteUserById(Long id) throws Exception {
+        try{
+            userRepository.deleteById(id);
+        }
+        catch (Exception ex){
+            throw new Exception(ex.getMessage());
+        }
+    }
+
+    public void updateUserById(Long id, AppUserDto userDto) throws Exception {
+        try{
+            userRepository.updateAppUser(userDto.getUsername(), userDto.getName(), userDto.getSurname()
+                    , userDto.getRate(), userDto.getMail(), userDto.getPhone(), userDto.getId());
+        }
+        catch (Exception ex){
+            throw new Exception(ex.getMessage());
+        }
+    }
+
+    public void createNewUser(AppUserDto user, String password, String salt) throws Exception {
+        try{
+            userRepository.save(convertUserDtoToEntity(user, password, salt));
+        } catch (Exception ex){
+            throw new Exception(ex.getMessage());
+        }
     }
 
     public boolean isUsernameUsed(String username) {

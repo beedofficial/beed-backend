@@ -11,9 +11,19 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface AppUserRepository extends JpaRepository<AppUser, Long> {
-    @Query("SELECT u.rate FROM AppUser u WHERE u.id = :id")
+    @Query(value = "SELECT u.rate FROM AppUser u WHERE u.id = :id")
     Optional<Double> getRateById(@Param("id") Long id);
 
+
     Optional<AppUser> findAppUserByUsername(String username);
+    @Query(value = "UPDATE AppUser SET username = :username, name = :name, surname = :surname, rate = :rate \n"+
+            ", mail = :mail, phone = :phone where id = :id", nativeQuery = true)
+    void updateAppUser(@Param("username") String username,
+                       @Param("name") String name,
+                       @Param("surname") String surname,
+                       @Param("rate") Double rate,
+                       @Param("mail") String mail,
+                       @Param("phone") String phone,
+                       @Param("id") Long id);
 
 }
