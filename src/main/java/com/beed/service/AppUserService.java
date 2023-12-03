@@ -41,4 +41,16 @@ public class AppUserService {
         AppUser user = userRepository.findById(id).get();
         return convertUserEntityToDto(user);
     }
+
+    public boolean isUsernameUsed(String username) {
+        return userRepository.findAppUserByUsername(username).isPresent();
+    }
+
+    public Optional<AppUser> getUserByUsername(String username) {
+        return userRepository.findAppUserByUsername(username);
+    }
+
+    public void saveAppUser(AppUser appUser) {
+        userRepository.save(appUser);
+    }
 }
