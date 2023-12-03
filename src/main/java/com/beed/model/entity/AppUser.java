@@ -17,28 +17,28 @@ public class AppUser {
     @Column(name = "id")
     private long id;
 
-    @Column(name = "username")
+    @Column(name = "username", nullable = false)
     private String username;
 
-    @Column(name = "name")
+    @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "surname")
+    @Column(name = "surname", nullable = false)
     private String surname;
 
     @Column(name = "rate")
     private Double rate;
 
-    @Column(name = "mail")
+    @Column(name = "mail", nullable = false)
     private String mail;
 
-    @Column(name = "phone")
+    @Column(name = "phone", nullable = false)
     private String phone;
 
-    @Column(name = "salt")
+    @Column(name = "salt", nullable = false)
     private String salt;
 
-    @Column(name = "encrypted_password")
+    @Column(name = "encrypted_password", nullable = false)
     private String encryptedPassword;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "auctioneer", cascade = CascadeType.ALL)
