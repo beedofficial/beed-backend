@@ -26,4 +26,8 @@ public interface AppUserRepository extends JpaRepository<AppUser, Long> {
                        @Param("phone") String phone,
                        @Param("id") Long id);
 
+    @Query(value = "UPDATE AppUser SET role = :role where id = :id", nativeQuery = true)
+    void updateAppUser(@Param("role") String role,
+                       @Param("id") Long id);
+
 }

@@ -22,39 +22,21 @@ public class AppUserService {
     }
 
     public AppUserDto getUserByID(Long id) throws Exception {
-        try{
-            AppUser user = userRepository.findById(id).get();
-            return convertUserEntityToDto(user);
-        } catch (Exception ex){
-            throw new Exception(ex.getMessage());
-        }
+        AppUser user = userRepository.findById(id).get();
+        return convertUserEntityToDto(user);
     }
 
     public void deleteUserById(Long id) throws Exception {
-        try{
-            userRepository.deleteById(id);
-        }
-        catch (Exception ex){
-            throw new Exception(ex.getMessage());
-        }
+        userRepository.deleteById(id);
     }
 
     public void updateUserById(Long id, AppUserDto userDto) throws Exception {
-        try{
-            userRepository.updateAppUser(userDto.getUsername(), userDto.getName(), userDto.getSurname()
-                    , userDto.getRate(), userDto.getMail(), userDto.getPhone(), userDto.getId());
-        }
-        catch (Exception ex){
-            throw new Exception(ex.getMessage());
-        }
+        userRepository.updateAppUser(userDto.getUsername(), userDto.getName(), userDto.getSurname()
+                , userDto.getRate(), userDto.getMail(), userDto.getPhone(), userDto.getId());
     }
 
-    public void createNewUser(AppUserDto user, String password, String salt) throws Exception {
-        try{
-            userRepository.save(convertUserDtoToEntity(user, password, salt));
-        } catch (Exception ex){
-            throw new Exception(ex.getMessage());
-        }
+    public void createNewUser(AppUserDto user, String password) throws Exception {
+        userRepository.save(convertUserDtoToEntity(user, password));
     }
 
     public boolean isUsernameUsed(String username) {

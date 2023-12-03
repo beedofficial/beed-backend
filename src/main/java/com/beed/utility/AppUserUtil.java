@@ -18,7 +18,7 @@ public class AppUserUtil {
                 .build();
     }
 
-    public static AppUser convertUserDtoToEntity(AppUserDto user, String password, String salt){
+    public static AppUser convertUserDtoToEntity(AppUserDto user, String password){
         AppUser newUser = new AppUser();
         newUser.setUsername(user.getUsername());
         newUser.setMail(user.getMail());
@@ -26,7 +26,6 @@ public class AppUserUtil {
         newUser.setSurname(user.getSurname());
         newUser.setRate(user.getRate());
         newUser.setPhone(user.getPhone());
-        newUser.setSalt(salt);
         newUser.setEncryptedPassword(password);
         return newUser;
     }
