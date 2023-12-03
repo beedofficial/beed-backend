@@ -35,11 +35,11 @@ public class AppUser {
     @Column(name = "phone", nullable = false)
     private String phone;
 
-    @Column(name = "salt", nullable = false)
-    private String salt;
-
     @Column(name = "encrypted_password", nullable = false)
     private String encryptedPassword;
+
+    @Column(name = "role", nullable = false)
+    private String role;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "auctioneer", cascade = CascadeType.ALL)
     private Set<Auction> auctions;
