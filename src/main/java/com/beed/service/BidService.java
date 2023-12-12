@@ -5,26 +5,19 @@ import com.beed.model.entity.AppUser;
 import com.beed.model.entity.Auction;
 import com.beed.model.entity.Bid;
 import com.beed.repository.BidRepository;
+import com.beed.utility.BidUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.beed.utility.BidUtil.convertBidToDto;
+
 @Service
 public class BidService {
     @Autowired
     BidRepository bidRepository;
-
-    public static BidDto convertBidToDto (Bid bid){
-        return BidDto.builder()
-                .id(bid.getId())
-                .auction(bid.getAuction())
-                .bidder(bid.getBidder())
-                .amount(bid.getAmount())
-                .date(bid.getDate())
-                .build();
-    }
 
     public BidDto getBidById(Long Id){
         Bid bid = bidRepository.findById(Id).orElse(null);
@@ -35,10 +28,10 @@ public class BidService {
         }
     }
 
-    public List<BidDto> getBidsByBidder(AppUser bidder) {
-        List<Bid> bids = bidRepository.findByBidder(bidder);
+    public List<BidDto> getBidsByBidder(long bidderId) {
+        List<Bid> bids = bidRepository.findByBidder(bidderId);
         return bids.stream()
-                .map(BidService::convertBidToDto)
+                .map(BidUtil::convertBidToDto)
                 .collect(Collectors.toList());
     }
 
@@ -56,11 +49,11 @@ public class BidService {
 
     public List<BidDto> getAllBids() {
         List<Bid> bids = bidRepository.findAll();
-        return bids.stream().map(BidService::convertBidToDto).toList();
+        return bids.stream().map(BidUtil::convertBidToDto).toList();
     }
 
-    public BidDto getHighestBidForAuction(Auction auction) {
-        Bid highestBid = bidRepository.findTopByAuctionOrderByAmountDesc(auction);
+    public BidDto getHighestBidForAuction(long auctionId) {
+        Bid highestBid = bidRepository.findTopByAuctionOrderByAmountDesc(auctionId);
         if (highestBid != null) {
             return convertBidToDto(highestBid);
         } else {

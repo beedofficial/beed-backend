@@ -13,13 +13,13 @@ import java.util.List;
 
 @Repository
 public interface BidRepository extends JpaRepository<Bid,Long> {
-    @Query("SELECT b FROM Bid b WHERE b.bidder = :bidder")
-    List<Bid> findByBidder(@Param("bidder") AppUser bidder);
+    @Query("SELECT b FROM Bid b WHERE b.bidder.id = :bidderId")
+    List<Bid> findByBidder(@Param("bidderId") long bidderId);
 
-    @Query("SELECT b FROM Bid b WHERE b.auction = :auction")
-    List<Bid> findByAuction(@Param("auction") Auction auction);
+    @Query("SELECT b FROM Bid b WHERE b.auction.id = :auctionId")
+    List<Bid> findByAuction(@Param("auctionId") long auctionId);
 
-    @Query("SELECT b FROM Bid b WHERE b.auction = :auction ORDER BY b.amount DESC")
-    Bid findTopByAuctionOrderByAmountDesc(@Param("auction") Auction auction);
+    @Query("SELECT b FROM Bid b WHERE b.auction.id = :auctionId ORDER BY b.amount DESC")
+    Bid findTopByAuctionOrderByAmountDesc(@Param("auctionId") long auctionId);
 
 }
