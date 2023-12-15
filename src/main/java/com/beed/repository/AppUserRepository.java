@@ -30,4 +30,7 @@ public interface AppUserRepository extends JpaRepository<AppUser, Long> {
     void updateAppUser(@Param("role") String role,
                        @Param("id") Long id);
 
+    @Query("SELECT u.id from AppUser u WHERE u.username = :username")
+    Long getUserIdByUsername(@Param("username") String username);
+
 }

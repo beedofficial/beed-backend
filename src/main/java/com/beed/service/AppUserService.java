@@ -50,4 +50,8 @@ public class AppUserService {
     public void saveAppUser(AppUser appUser) {
         userRepository.save(appUser);
     }
+
+    public Long getUserIdByUsername(String username) {
+        return userRepository.getUserIdByUsername(username);
+    }
 }

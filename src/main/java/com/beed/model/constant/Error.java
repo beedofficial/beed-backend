@@ -4,7 +4,10 @@ public enum Error {
     USERNAME_IS_USED_ERROR(1, "Username is used by someone else."),
     INVALID_USERNAME_OR_PASSWORD_ERROR(2, "Invalid username or password"),
     AUTHENTICATION_ERROR(3, "There is an error in authentication."),
-    GET_FEED_PAGE_AUCTIONS_FAILED(4, "Failed to retrieve auctions");
+    GET_FEED_PAGE_AUCTIONS_ERROR(4, "Failed to retrieve auctions"),
+    GET_PROFILE_HISTORY_AUCTIONS_ERROR(5, "Failed to retrieve auctions for profile history."),
+    GET_PROFILE_HISTORY_BIDS_ERROR(6, "Failed to retrieve bids for profile history.");
+
     private final int code;
     private final String description;
 
