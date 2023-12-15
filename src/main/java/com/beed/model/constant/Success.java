@@ -2,7 +2,8 @@ package com.beed.model.constant;
 
 public enum Success {
     REGISTERED_SUCCESS(0, "Successfully registered"),
-    LOGIN_SUCCESS(0, "Successfully logged in.");
+    LOGIN_SUCCESS(0, "Successfully logged in."),
+    GET_FEED_PAGE_AUCTIONS_SUCCESS(0, "Successfully retrieved feed page auctions.");
     private final int code;
     private final String description;
 

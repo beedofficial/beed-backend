@@ -3,7 +3,8 @@ package com.beed.model.constant;
 public enum Error {
     USERNAME_IS_USED_ERROR(1, "Username is used by someone else."),
     INVALID_USERNAME_OR_PASSWORD_ERROR(2, "Invalid username or password"),
-    AUTHENTICATION_ERROR(3, "There is an error in authentication.");
+    AUTHENTICATION_ERROR(3, "There is an error in authentication."),
+    GET_FEED_PAGE_AUCTIONS_FAILED(4, "Failed to retrieve auctions");
     private final int code;
     private final String description;
 
