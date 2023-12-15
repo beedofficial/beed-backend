@@ -4,6 +4,8 @@ import com.beed.model.dto.AuctionDto;
 import static com.beed.utility.AuctionUtil.*;
 
 import com.beed.model.dto.FeedPageAuctionDto;
+import com.beed.model.dto.ProfileHistoryAuctionDto;
+import com.beed.model.dto.ProfileHistoryBidDto;
 import com.beed.model.entity.Auction;
 import com.beed.repository.AuctionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +13,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,6 +21,9 @@ import java.util.Optional;
 public class AuctionService {
     @Autowired
     AuctionRepository auctionRepository;
+
+    @Autowired
+    AppUserService appUserService;
 
 
     public AuctionDto getAuctionbyId(Long Id){
@@ -28,6 +34,17 @@ public class AuctionService {
     public List<FeedPageAuctionDto> getFeedPageAuctionList(Integer page) {
         Pageable pageWithTenElements = PageRequest.of(page, 10);
         return auctionRepository.getFeedPageAuctions(pageWithTenElements);
+    }
+
+    public List<ProfileHistoryAuctionDto> getProfileHistoryAuctionList(String username, Integer page) {
+        Long userId = appUserService.getUserIdByUsername(username);
+        Pageable pageWithTenElements = PageRequest.of(page, 10);
+        List<ProfileHistoryAuctionDto> profileHistoryAuctionList = auctionRepository.getProfileHistoryAuctions(userId, pageWithTenElements);
+        profileHistoryAuctionList.forEach(auction -> {
+            auction.setDone(OffsetDateTime.now().isAfter(auction.getEndDate()));
+        });
+
+        return  profileHistoryAuctionList;
     }
 
 }

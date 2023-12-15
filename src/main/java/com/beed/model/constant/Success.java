@@ -3,7 +3,9 @@ package com.beed.model.constant;
 public enum Success {
     REGISTERED_SUCCESS(0, "Successfully registered"),
     LOGIN_SUCCESS(0, "Successfully logged in."),
-    GET_FEED_PAGE_AUCTIONS_SUCCESS(0, "Successfully retrieved feed page auctions.");
+    GET_FEED_PAGE_AUCTIONS_SUCCESS(0, "Successfully retrieved feed page auctions."),
+    GET_PROFILE_HISTORY_AUCTIONS_SUCCESS(0, "Successfully retrieved profile history auctions."),
+    GET_PROFILE_HISTORY_BIDS_SUCCESS(0, "Successfully retrieved profile history bids.");
     private final int code;
     private final String description;
 

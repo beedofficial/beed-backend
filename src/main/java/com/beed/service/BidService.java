@@ -1,12 +1,15 @@
 package com.beed.service;
 
 import com.beed.model.dto.BidDto;
+import com.beed.model.dto.ProfileHistoryBidDto;
 import com.beed.model.entity.AppUser;
 import com.beed.model.entity.Auction;
 import com.beed.model.entity.Bid;
 import com.beed.repository.BidRepository;
 import com.beed.utility.BidUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,6 +21,9 @@ import static com.beed.utility.BidUtil.convertBidToDto;
 public class BidService {
     @Autowired
     BidRepository bidRepository;
+
+    @Autowired
+    AppUserService appUserService;
 
     public BidDto getBidById(Long Id){
         Bid bid = bidRepository.findById(Id).orElse(null);
@@ -59,5 +65,11 @@ public class BidService {
         } else {
             return null;
         }
+    }
+
+    public List<ProfileHistoryBidDto> getProfileHistoryBids(String username, Integer page) {
+        Long userId = appUserService.getUserIdByUsername(username);
+        Pageable pageWithTenElements = PageRequest.of(page, 10);
+        return bidRepository.getProfileHistoryBids(userId, pageWithTenElements);
     }
 }
