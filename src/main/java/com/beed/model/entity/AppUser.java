@@ -14,6 +14,7 @@ import java.util.Set;
 @AllArgsConstructor
 public class AppUser {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private long id;
 
