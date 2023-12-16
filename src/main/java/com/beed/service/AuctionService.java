@@ -45,7 +45,7 @@ public class AuctionService {
 
         return  profileHistoryAuctionList;
     }
-
+  
     public List<FeedPageAuctionDto> getHotAuctionsPageAuctionList(Integer page) {
         OffsetDateTime now = OffsetDateTime.now();
         OffsetDateTime oneHourAgo = now.minus(Duration.ofHours(1));
@@ -59,7 +59,5 @@ public class AuctionService {
         return auctionRepository.getHotAuctionsPageAuctions(
                 oneHourAgo, oneDayAgo, threeDaysAgo, oneWeekAgo, pageWithTenElements);
     }
-
-
 
 }

@@ -59,7 +59,7 @@ public class AuthController {
         }
     }
 
-    @GetMapping("/api/auth/login")
+    @PostMapping("/api/auth/login")
     public ResponseEntity<LoginControllerResponse> login(@RequestBody LoginRequest loginRequest) {
         try {
             String token = authService.login(loginRequest);

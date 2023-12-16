@@ -27,6 +27,9 @@ public class AppUser {
     @Column(name = "surname", nullable = false)
     private String surname;
 
+    @Column(name="profile_photo_url")
+    private String profilePhotoUrl;
+
     @Column(name = "rate")
     private Double rate;
 
