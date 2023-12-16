@@ -2,7 +2,6 @@ package com.beed.service;
 
 import com.beed.model.dto.*;
 
-import static com.beed.utility.AuctionUtil.*;
 
 import com.beed.model.entity.Auction;
 import com.beed.repository.AuctionRepository;
@@ -24,11 +23,6 @@ public class AuctionService {
     @Autowired
     AppUserService appUserService;
 
-
-    public AuctionDto getAuctionbyId(Long Id){
-        Auction auction = auctionRepository.findById(Id).get();
-        return convertAuctiontodto(auction);
-    }
 
     public List<FeedPageAuctionDto> getFeedPageAuctionList(Integer page) {
         Pageable pageWithTenElements = PageRequest.of(page, 10);
@@ -58,6 +52,11 @@ public class AuctionService {
 
         return auctionRepository.getHotAuctionsPageAuctions(
                 oneHourAgo, oneDayAgo, threeDaysAgo, oneWeekAgo, pageWithTenElements);
+    }
+
+    public AuctionDto getAuctionInfo(Long id){
+        AuctionDto auctionDto = auctionRepository.getAuctionDtoById(id);
+        return auctionDto;
     }
 
 }

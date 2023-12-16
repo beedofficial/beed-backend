@@ -6,7 +6,8 @@ public enum Success {
     GET_FEED_PAGE_AUCTIONS_SUCCESS(0, "Successfully retrieved feed page auctions."),
     GET_PROFILE_HISTORY_AUCTIONS_SUCCESS(0, "Successfully retrieved profile history auctions."),
     GET_PROFILE_HISTORY_BIDS_SUCCESS(0, "Successfully retrieved profile history bids."),
-    GET_USER_INFO_PAGE_SUCCESS(0, "Successfully retrieved user info profile.");
+    GET_USER_INFO_PAGE_SUCCESS(0, "Successfully retrieved user info profile."),
+    GET_AUCTION_INFO_VIEW_SUCCESS(0, "Successfully retrieved auction info view.");
 
     private final int code;
     private final String description;

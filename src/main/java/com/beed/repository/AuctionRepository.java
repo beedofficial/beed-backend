@@ -1,5 +1,6 @@
 package com.beed.repository;
 
+import com.beed.model.dto.AuctionDto;
 import com.beed.model.dto.FeedPageAuctionDto;
 import com.beed.model.dto.ProfileHistoryAuctionDto;
 import com.beed.model.entity.Auction;
@@ -45,4 +46,10 @@ public interface AuctionRepository extends JpaRepository<Auction,Long>, PagingAn
             @Param("threeDaysAgo") OffsetDateTime threeDaysAgo,
             @Param("oneWeekAgo") OffsetDateTime oneWeekAgo,
             Pageable pageable);
+
+    @Query("SELECT new com.beed.model.dto.AuctionDto (" +
+           "a.id, a.title, a.description, a.auctioneer.username,a.auctioneer.rate, a.startDate, a.endDate, a.minStartBid) " +
+            "FROM Auction a " +
+            "WHERE a.id = :id ")
+    AuctionDto getAuctionDtoById(@Param("id") Long id);
 }
