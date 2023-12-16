@@ -3,6 +3,7 @@ package com.beed.controller;
 import com.beed.model.dto.FeedPageAuctionDto;
 import com.beed.model.dto.ProfileHistoryAuctionDto;
 import com.beed.model.response.GetFeedPageAuctionsControllerResponse;
+import com.beed.model.response.GetHotAuctionsPageControllerResponse;
 import com.beed.model.response.GetProfileHistoryAuctionsControllerResponse;
 import com.beed.service.AuctionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +38,29 @@ public class AuctionController {
 
         } catch (Exception e) {
             GetFeedPageAuctionsControllerResponse controllerResponse = GetFeedPageAuctionsControllerResponse.builder()
+                    .responseMessage(GET_FEED_PAGE_AUCTIONS_ERROR.getDescription() + ":" + e.toString())
+                    .responseCode(GET_FEED_PAGE_AUCTIONS_ERROR.getCode())
+                    .build();
+
+            return new ResponseEntity<>(controllerResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/api/auction/get-hot-auctions-page-auctions")
+    public ResponseEntity<GetHotAuctionsPageControllerResponse> getHotAuctionsPage(@RequestParam Integer page) {
+        try {
+            List<FeedPageAuctionDto> hotAuctionList = auctionService.getHotAuctionsPageAuctionList(page);
+
+            GetHotAuctionsPageControllerResponse controllerResponse = GetHotAuctionsPageControllerResponse.builder()
+                    .hotAuctionsPageAuctionList(hotAuctionList)
+                    .responseMessage(GET_FEED_PAGE_AUCTIONS_SUCCESS.getDescription())
+                    .responseCode(GET_FEED_PAGE_AUCTIONS_SUCCESS.getCode())
+                    .build();
+
+            return new ResponseEntity<>(controllerResponse, HttpStatus.OK);
+
+        } catch (Exception e) {
+            GetHotAuctionsPageControllerResponse controllerResponse = GetHotAuctionsPageControllerResponse.builder()
                     .responseMessage(GET_FEED_PAGE_AUCTIONS_ERROR.getDescription() + ":" + e.toString())
                     .responseCode(GET_FEED_PAGE_AUCTIONS_ERROR.getCode())
                     .build();
