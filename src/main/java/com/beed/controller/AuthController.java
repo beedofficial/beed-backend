@@ -25,7 +25,7 @@ public class AuthController {
     @Autowired
     AuthService authService;
 
-    @GetMapping("/api/deneme")
+    @PostMapping("/api/deneme")
     public ResponseEntity<String> a() {
         return new ResponseEntity<>("sdfsdfsdfsdfsdf", HttpStatus.OK);
     }

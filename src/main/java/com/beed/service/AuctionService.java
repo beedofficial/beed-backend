@@ -11,6 +11,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.Duration;
 import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -44,6 +45,19 @@ public class AuctionService {
 
         return  profileHistoryAuctionList;
     }
+  
+    public List<FeedPageAuctionDto> getHotAuctionsPageAuctionList(Integer page) {
+        OffsetDateTime now = OffsetDateTime.now();
+        OffsetDateTime oneHourAgo = now.minus(Duration.ofHours(1));
+        OffsetDateTime oneDayAgo = now.minus(Duration.ofDays(1));
+        OffsetDateTime threeDaysAgo = now.minus(Duration.ofDays(3));
+        OffsetDateTime oneWeekAgo = now.minus(Duration.ofDays(7));
 
+
+        Pageable pageWithTenElements = PageRequest.of(page, 10);
+
+        return auctionRepository.getHotAuctionsPageAuctions(
+                oneHourAgo, oneDayAgo, threeDaysAgo, oneWeekAgo, pageWithTenElements);
+    }
 
 }
