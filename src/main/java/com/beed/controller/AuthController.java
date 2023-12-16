@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -29,7 +30,7 @@ public class AuthController {
         return new ResponseEntity<>("sdfsdfsdfsdfsdf", HttpStatus.OK);
     }
 
-    @GetMapping("/api/auth/register")
+    @PostMapping("/api/auth/register")
     public ResponseEntity<BaseControllerResponse> register(@RequestBody RegisterRequest registerRequest) {
         try {
             authService.register(registerRequest);
@@ -58,7 +59,7 @@ public class AuthController {
         }
     }
 
-    @GetMapping("/api/auth/login")
+    @PostMapping("/api/auth/login")
     public ResponseEntity<LoginControllerResponse> login(@RequestBody LoginRequest loginRequest) {
         try {
             String token = authService.login(loginRequest);
