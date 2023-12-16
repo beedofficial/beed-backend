@@ -54,4 +54,9 @@ public class AppUserService {
     public Long getUserIdByUsername(String username) {
         return userRepository.getUserIdByUsername(username);
     }
+
+    public AppUserDto getUserInfo(String username) {
+        AppUserDto appUserDto = userRepository.getAppUserDtoByUsername(username);
+        return appUserDto;
+    }
 }

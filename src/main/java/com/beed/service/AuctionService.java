@@ -1,11 +1,9 @@
 package com.beed.service;
 
-import com.beed.model.dto.AuctionDto;
+import com.beed.model.dto.*;
+
 import static com.beed.utility.AuctionUtil.*;
 
-import com.beed.model.dto.FeedPageAuctionDto;
-import com.beed.model.dto.ProfileHistoryAuctionDto;
-import com.beed.model.dto.ProfileHistoryBidDto;
 import com.beed.model.entity.Auction;
 import com.beed.repository.AuctionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,5 +44,6 @@ public class AuctionService {
 
         return  profileHistoryAuctionList;
     }
+
 
 }
