@@ -17,20 +17,20 @@ import java.util.List;
 @Repository
 public interface AuctionRepository extends JpaRepository<Auction,Long>, PagingAndSortingRepository<Auction, Long> {
     @Query("SELECT new com.beed.model.dto.FeedPageAuctionDto(" +
-            "a.id, a.title, a.minStartBid) " +
+            "a.id, a.title, a.minStartBid, a.auctionImageUrl) " +
             "FROM Auction a " +
             "ORDER BY a.startDate DESC")
     List<FeedPageAuctionDto> getFeedPageAuctions(Pageable pageable);
 
     @Query("SELECT new com.beed.model.dto.ProfileHistoryAuctionDto(" +
-            "a.id, a.title, a.minStartBid, a.endDate) " +
+            "a.id, a.title, a.minStartBid, a.endDate, a.auctionImageUrl) " +
             "FROM Auction a " +
             "WHERE a.auctioneer.id = :auctioneerId " +
             "ORDER BY a.startDate DESC")
     List<ProfileHistoryAuctionDto> getProfileHistoryAuctions(@Param("auctioneerId") Long auctioneerId, Pageable pageable);
 
     @Query("SELECT new com.beed.model.dto.FeedPageAuctionDto(" +
-            "a.id, a.title, a.minStartBid) " +
+            "a.id, a.title, a.minStartBid, a.auctionImageUrl) " +
             "FROM Auction a " +
             "LEFT JOIN Bid b ON a.id = b.auction.id " +
             "GROUP BY a.id " +
