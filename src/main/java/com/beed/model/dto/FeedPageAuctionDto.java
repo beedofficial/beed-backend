@@ -12,4 +12,5 @@ public class FeedPageAuctionDto implements Serializable {
     private Long id;
     private String title;
     private double minStartBid;
+    private String imageUrl;
 }

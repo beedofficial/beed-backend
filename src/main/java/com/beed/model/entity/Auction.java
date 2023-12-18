@@ -31,8 +31,8 @@ public class Auction {
     @JoinColumn(name = "auctioneer_id")
     private AppUser auctioneer;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "auction", cascade = CascadeType.ALL)
-    private Set<Image> images;
+    @Column(name = "auction_image_url")
+    private String auctionImageUrl;
 
     @Column(name = "start_date", nullable = false)
     private OffsetDateTime startDate;
