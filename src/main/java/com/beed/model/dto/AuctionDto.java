@@ -14,8 +14,9 @@ public class AuctionDto implements Serializable{
     private Long id;
     private String title;
     private String description;
-    private AppUser auctioneer;
     private String imageUrl;
+    private String auctioneerUsername;
+    private Double auctioneerRate;
     private OffsetDateTime startDate;
     private OffsetDateTime endDate;
     private double minStartBid;
