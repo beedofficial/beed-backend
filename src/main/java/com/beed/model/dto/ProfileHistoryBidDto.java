@@ -18,4 +18,5 @@ public class ProfileHistoryBidDto {
     private Long amount;
     private OffsetDateTime date;
     private Boolean isDone;
+    private String imageUrl;
 }
