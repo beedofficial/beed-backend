@@ -15,7 +15,7 @@ public interface AppUserRepository extends JpaRepository<AppUser, Long> {
     @Query(value = "SELECT u.rate FROM AppUser u WHERE u.id = :id")
     Optional<Double> getRateById(@Param("id") Long id);
 
-
+    AppUser findAppUserById(Long id);
     Optional<AppUser> findAppUserByUsername(String username);
     @Query(value = "UPDATE AppUser SET username = :username, name = :name, surname = :surname, rate = :rate \n"+
             ", mail = :mail, phone = :phone where id = :id", nativeQuery = true)
