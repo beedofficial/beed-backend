@@ -1,7 +1,9 @@
 package com.beed.controller;
 
+import com.beed.model.dto.AuctionDto;
 import com.beed.model.dto.FeedPageAuctionDto;
 import com.beed.model.dto.ProfileHistoryAuctionDto;
+import com.beed.model.response.GetAuctionViewControllerResponse;
 import com.beed.model.response.GetFeedPageAuctionsControllerResponse;
 import com.beed.model.response.GetHotAuctionsPageControllerResponse;
 import com.beed.model.response.GetProfileHistoryAuctionsControllerResponse;
@@ -90,5 +92,29 @@ public class AuctionController {
 
             return new ResponseEntity<>(controllerResponse, HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    @GetMapping("api/auction/get-auction-info-view")
+    public ResponseEntity<GetAuctionViewControllerResponse> getAuctionInfoView(@RequestParam Long id){
+        try {
+            AuctionDto auctionDto = auctionService.getAuctionInfo(id);
+
+            GetAuctionViewControllerResponse controllerResponse = GetAuctionViewControllerResponse.builder()
+                    .auction(auctionDto)
+                    .responseCode(GET_USER_INFO_PAGE_SUCCESS.getCode())
+                    .responseMessage(GET_USER_INFO_PAGE_SUCCESS.getDescription())
+                    .build();
+
+            return new ResponseEntity<>(controllerResponse, HttpStatus.OK);
+
+        }catch (Exception e){
+            GetAuctionViewControllerResponse controllerResponse = GetAuctionViewControllerResponse.builder()
+                    .responseCode(GET_USER_INFO_PAGE_ERROR.getCode())
+                    .responseMessage(GET_AUCTION_INFO_VIEW_ERROR.getDescription())
+                    .build();
+
+            return new ResponseEntity<>(controllerResponse,HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
     }
 }

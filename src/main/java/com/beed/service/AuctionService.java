@@ -60,4 +60,9 @@ public class AuctionService {
                 oneHourAgo, oneDayAgo, threeDaysAgo, oneWeekAgo, pageWithTenElements);
     }
 
+    public AuctionDto getAuctionInfo(Long id){
+        AuctionDto auctionDto = auctionRepository.getAuctionDtoById(id);
+        return auctionDto;
+    }
+
 }
