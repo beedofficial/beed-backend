@@ -4,6 +4,8 @@ import com.beed.model.dto.AuctionDto;
 import com.beed.model.dto.FeedPageAuctionDto;
 import com.beed.model.dto.ProfileHistoryAuctionDto;
 import com.beed.model.response.GetAuctionViewControllerResponse;
+import com.beed.model.request.CreateAuctionRequest;
+import com.beed.model.response.CreateAuctionResponse;
 import com.beed.model.response.GetFeedPageAuctionsControllerResponse;
 import com.beed.model.response.GetHotAuctionsPageControllerResponse;
 import com.beed.model.response.GetProfileHistoryAuctionsControllerResponse;
@@ -12,9 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import com.beed.utility.AppUserUtil;
 
 import java.util.List;
 
@@ -95,26 +96,45 @@ public class AuctionController {
     }
 
     @GetMapping("api/auction/get-auction-info-view")
-    public ResponseEntity<GetAuctionViewControllerResponse> getAuctionInfoView(@RequestParam Long id){
+    public ResponseEntity<GetAuctionViewControllerResponse> getAuctionInfoView(@RequestParam Long id) {
         try {
             AuctionDto auctionDto = auctionService.getAuctionInfo(id);
 
             GetAuctionViewControllerResponse controllerResponse = GetAuctionViewControllerResponse.builder()
                     .auction(auctionDto)
-                    .responseCode(GET_USER_INFO_PAGE_SUCCESS.getCode())
-                    .responseMessage(GET_USER_INFO_PAGE_SUCCESS.getDescription())
+                    .responseCode(GET_AUCTION_INFO_VIEW_SUCCESS.getCode())
+                    .responseMessage(GET_AUCTION_INFO_VIEW_SUCCESS.getDescription())
                     .build();
 
             return new ResponseEntity<>(controllerResponse, HttpStatus.OK);
-
-        }catch (Exception e){
+        } catch (Exception e) {
             GetAuctionViewControllerResponse controllerResponse = GetAuctionViewControllerResponse.builder()
-                    .responseCode(GET_USER_INFO_PAGE_ERROR.getCode())
-                    .responseMessage(GET_AUCTION_INFO_VIEW_ERROR.getDescription())
+                    .responseCode(GET_AUCTION_INFO_VIEW_ERROR.getCode())
+                    .responseMessage(GET_AUCTION_INFO_VIEW_ERROR.getDescription() + ":" + e.toString())
                     .build();
 
-            return new ResponseEntity<>(controllerResponse,HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(controllerResponse, HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+    @PostMapping("/api/auction/create-auction")
+    public ResponseEntity<CreateAuctionResponse> createAuction(@RequestBody CreateAuctionRequest createAuctionRequest, Authentication authentication) {
+        try {
+            Long auctionId = auctionService.createAuction(createAuctionRequest, authentication.getName());
 
+            CreateAuctionResponse controllerResponse = CreateAuctionResponse.builder()
+                    .responseMessage(CREATE_AUCTION_SUCCESS.getDescription())
+                    .responseCode(CREATE_AUCTION_SUCCESS.getCode())
+                    .auctionId(auctionId)
+                    .build();
+
+            return new ResponseEntity<>(controllerResponse, HttpStatus.OK);
+        } catch (Exception e) {
+            CreateAuctionResponse controllerResponse = CreateAuctionResponse.builder()
+                    .responseMessage(CREATE_AUCTION_ERROR.getDescription() + ":" + e.toString())
+                    .responseCode(CREATE_AUCTION_ERROR.getCode())
+                    .build();
+
+            return new ResponseEntity<>(controllerResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }
