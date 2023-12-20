@@ -17,7 +17,7 @@ import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Optional;
 
-import static com.beed.utility.AuctionUtil.convertAuctiontodto;
+import static com.beed.utility.AuctionUtil.convertAuctiontoDto;
 
 @Service
 public class AuctionService {
@@ -30,7 +30,7 @@ public class AuctionService {
 
     public AuctionDto getAuctionbyId(Long Id){
         Auction auction = auctionRepository.findById(Id).get();
-        return convertAuctiontodto(auction);
+        return convertAuctiontoDto(auction);
     }
 
     public List<FeedPageAuctionDto> getFeedPageAuctionList(Integer page) {
