@@ -4,6 +4,8 @@ import com.beed.model.dto.AppUserDto;
 import com.beed.model.entity.AppUser;
 import com.beed.repository.AppUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import static com.beed.utility.AppUserUtil.*;
@@ -58,5 +60,10 @@ public class AppUserService {
     public AppUserDto getUserInfo(String username) {
         AppUserDto appUserDto = userRepository.getAppUserDtoByUsername(username);
         return appUserDto;
+    }
+
+    public List<AppUserDto> getUserList(Integer page) throws Exception {
+        Pageable pageWithTenElements = PageRequest.of(page, 10);
+        return userRepository.getUsersInfos(pageWithTenElements);
     }
 }
