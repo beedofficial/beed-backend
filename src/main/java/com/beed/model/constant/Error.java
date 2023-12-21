@@ -9,7 +9,8 @@ public enum Error {
     GET_PROFILE_HISTORY_BIDS_ERROR(6, "Failed to retrieve bids for profile history."),
     GET_USER_INFO_PAGE_ERROR(7, "Failed to retrieve user for user info page."),
     GET_AUCTION_INFO_VIEW_ERROR(8, "Failed to retrieve user for user info page."),
-    CREATE_AUCTION_ERROR(9, "Failed to create auction.");
+    CREATE_AUCTION_ERROR(9, "Failed to create auction."),
+    GET_ALL_USERS_INFO_ERROR(10,"Failed to retrieve users");
     private final int code;
     private final String description;
 

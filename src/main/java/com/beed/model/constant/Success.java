@@ -4,6 +4,7 @@ public enum Success {
     REGISTERED_SUCCESS(0, "Successfully registered"),
     LOGIN_SUCCESS(0, "Successfully logged in."),
     GET_FEED_PAGE_AUCTIONS_SUCCESS(0, "Successfully retrieved feed page auctions."),
+    GET_ALL_USERS_INFO_SUCCESS(0, "Successfully retrieved all users' information."),
     GET_PROFILE_HISTORY_AUCTIONS_SUCCESS(0, "Successfully retrieved profile history auctions."),
     GET_PROFILE_HISTORY_BIDS_SUCCESS(0, "Successfully retrieved profile history bids."),
     GET_USER_INFO_PAGE_SUCCESS(0, "Successfully retrieved user info profile."),

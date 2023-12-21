@@ -3,6 +3,8 @@ package com.beed.repository;
 import com.beed.model.dto.AppUserDto;
 import com.beed.model.entity.AppUser;
 
+import org.springframework.data.domain.Pageable;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -40,4 +42,8 @@ public interface AppUserRepository extends JpaRepository<AppUser, Long> {
             "WHERE a.username = :username")
     AppUserDto getAppUserDtoByUsername(@Param("username") String username);
 
+    @Query("SELECT new com.beed.model.dto.AppUserDto(" +
+            "a.id, a.username, a.name, a.surname, a.rate, a.mail, a.phone, a.profilePhotoUrl) " +
+            "FROM AppUser a ")
+    List<AppUserDto> getUsersInfos(Pageable pageable);
 }
