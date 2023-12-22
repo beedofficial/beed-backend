@@ -28,6 +28,7 @@ public class JwtService {
         Claims claims = Jwts.claims().setSubject(appUser.getUsername());
         claims.put("firstName",appUser.getName());
         claims.put("lastName",appUser.getSurname());
+        claims.put("role", appUser.getRole());
         Date tokenCreateTime = new Date();
         Date tokenValidity = new Date(tokenCreateTime.getTime() + ACCESS_TOKEN_VALIDITY);
         return Jwts.builder()

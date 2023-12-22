@@ -1,14 +1,18 @@
 package com.beed.controller;
 
+import com.beed.model.constant.Role;
+import com.beed.model.exception.InvalidAdminPasswordException;
 import com.beed.model.exception.UsernameUsedException;
 import com.beed.model.request.LoginRequest;
 import com.beed.model.request.RegisterRequest;
 import com.beed.model.response.BaseControllerResponse;
 import com.beed.model.response.LoginControllerResponse;
 import com.beed.service.AuthService;
+import jakarta.annotation.security.RolesAllowed;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,8 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import static com.beed.model.constant.Error.AUTHENTICATION_ERROR;
 import static com.beed.model.constant.Error.INVALID_USERNAME_OR_PASSWORD_ERROR;
-import static com.beed.model.constant.Success.LOGIN_SUCCESS;
-import static com.beed.model.constant.Success.REGISTERED_SUCCESS;
+import static com.beed.model.constant.Success.*;
 
 @RestController
 public class AuthController {
@@ -50,6 +53,14 @@ public class AuthController {
 
             return new ResponseEntity<>(controllerResponse, HttpStatus.CONFLICT);
 
+        } catch (InvalidAdminPasswordException e) {
+            BaseControllerResponse controllerResponse = BaseControllerResponse.builder()
+                    .responseMessage(e.getMessage())
+                    .responseCode(e.getStatusCode())
+                    .build();
+
+            return new ResponseEntity<>(controllerResponse, HttpStatus.BAD_REQUEST);
+
         } catch (Exception e) {
             BaseControllerResponse controllerResponse = BaseControllerResponse.builder()
                     .responseMessage(e.toString())
@@ -80,7 +91,7 @@ public class AuthController {
                     .build();
 
             return new ResponseEntity<>(controllerResponse, HttpStatus.BAD_REQUEST);
-        } catch (Exception e){
+        } catch (Exception e) {
             LoginControllerResponse controllerResponse = LoginControllerResponse.builder()
                     .responseMessage(AUTHENTICATION_ERROR.getDescription())
                     .responseCode(AUTHENTICATION_ERROR.getCode())
@@ -88,5 +99,16 @@ public class AuthController {
 
             return new ResponseEntity<>(controllerResponse, HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    @RolesAllowed({Role.Admin})
+    @GetMapping("api/auth/control-admin")
+    public ResponseEntity<BaseControllerResponse> controlAdmin() {
+        BaseControllerResponse controllerResponse = BaseControllerResponse.builder()
+                .responseCode(ADMIN_CONTROL_SUCCESS.getCode())
+                .responseMessage(ADMIN_CONTROL_SUCCESS.getDescription())
+                .build();
+
+        return new ResponseEntity<>(controllerResponse, HttpStatus.OK);
     }
 }

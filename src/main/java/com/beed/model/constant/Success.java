@@ -9,7 +9,8 @@ public enum Success {
     GET_PROFILE_HISTORY_BIDS_SUCCESS(0, "Successfully retrieved profile history bids."),
     GET_USER_INFO_PAGE_SUCCESS(0, "Successfully retrieved user info profile."),
     GET_AUCTION_INFO_VIEW_SUCCESS(0, "Successfully retrieved auction info view."),
-    CREATE_AUCTION_SUCCESS(0,"Successfully created auction.");
+    CREATE_AUCTION_SUCCESS(0,"Successfully created auction."),
+    ADMIN_CONTROL_SUCCESS(0, "Your admin role has been accepted by system.");
 
 
     private final int code;

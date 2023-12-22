@@ -1,11 +1,13 @@
 package com.beed.controller;
 
+import com.beed.model.constant.Role;
 import com.beed.model.dto.AppUserDto;
 import com.beed.model.dto.FeedPageAuctionDto;
 import com.beed.model.response.GetFeedPageAuctionsControllerResponse;
 import com.beed.model.response.GetUserInfoPageControllerResponse;
 import com.beed.model.response.GetUserListResponse;
 import com.beed.service.AppUserService;
+import jakarta.annotation.security.RolesAllowed;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -50,6 +52,7 @@ public class AppUserController {
         }
     }
 
+    @RolesAllowed({Role.Admin})
     @GetMapping("/api/appuser/get-all-users")
     public ResponseEntity<GetUserListResponse> getFeedAuctionsPage(@RequestParam Integer page) {
         try {
