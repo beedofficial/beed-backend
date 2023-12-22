@@ -10,8 +10,8 @@ public enum Success {
     GET_USER_INFO_PAGE_SUCCESS(0, "Successfully retrieved user info profile."),
     GET_AUCTION_INFO_VIEW_SUCCESS(0, "Successfully retrieved auction info view."),
     CREATE_AUCTION_SUCCESS(0,"Successfully created auction."),
-    ADMIN_CONTROL_SUCCESS(0, "Your admin role has been accepted by system.");
-
+    ADMIN_CONTROL_SUCCESS(0, "Your admin role has been accepted by system."),
+    UPDATE_USER_INFO_SUCCESS(0, "Succesfully updated user info.");
 
     private final int code;
     private final String description;

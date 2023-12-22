@@ -18,5 +18,5 @@ public class AppUserDto implements Serializable{
     private Double rate;
     private String mail;
     private String phone;
-    private String imageUrl;
+    private String profilePhotoUrl;
 }

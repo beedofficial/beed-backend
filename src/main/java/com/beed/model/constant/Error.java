@@ -11,7 +11,11 @@ public enum Error {
     GET_AUCTION_INFO_VIEW_ERROR(8, "Failed to retrieve user for user info page."),
     CREATE_AUCTION_ERROR(9, "Failed to create auction."),
     GET_ALL_USERS_INFO_ERROR(10,"Failed to retrieve users"),
-    INVALID_ADMIN_PASSWORD_ERROR(11, "You can not register as a admin because the admin password you entered is invalid.");
+
+    INVALID_ADMIN_PASSWORD_ERROR(11, "You can not register as a admin because the admin password you entered is invalid."),
+
+    UPDATE_USER_INFO_ERROR(12, "Failed to update user info.");
+
     private final int code;
     private final String description;
 
