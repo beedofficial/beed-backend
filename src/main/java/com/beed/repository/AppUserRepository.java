@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -19,15 +20,26 @@ public interface AppUserRepository extends JpaRepository<AppUser, Long> {
 
     AppUser findAppUserById(Long id);
     Optional<AppUser> findAppUserByUsername(String username);
-    @Query(value = "UPDATE AppUser SET username = :username, name = :name, surname = :surname, rate = :rate \n"+
-            ", mail = :mail, phone = :phone where id = :id", nativeQuery = true)
-    void updateAppUser(@Param("username") String username,
-                       @Param("name") String name,
+    @Modifying
+    @Query(value = "UPDATE AppUser u SET  u.username = :username, u.name = :name," +
+            " u.surname = :surname, u.mail = :mail, u.phone = :phone" +
+            " where u.id = :id")
+    void updateAppUser(@Param("name") String name,
                        @Param("surname") String surname,
-                       @Param("rate") Double rate,
                        @Param("mail") String mail,
                        @Param("phone") String phone,
+                       @Param("username") String username,
                        @Param("id") Long id);
+    @Modifying
+    @Query(value = "UPDATE AppUser u SET  u.profilePhotoUrl = :photo" +
+            " where u.id = :id")
+    void updateAppUserPhoto(@Param("photo") String photo,
+                            @Param("id") Long id);
+    @Modifying
+    @Query(value = "UPDATE AppUser u SET  u.rate = :rate" +
+            " where u.id = :id")
+    void updateAppUserRate(@Param("rate") Double rate,
+                           @Param("id") Long id);
 
     @Query(value = "UPDATE AppUser SET role = :role where id = :id", nativeQuery = true)
     void updateAppUser(@Param("role") String role,

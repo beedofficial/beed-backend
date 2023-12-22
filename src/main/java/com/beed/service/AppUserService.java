@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import static com.beed.utility.AppUserUtil.*;
 
@@ -31,10 +32,18 @@ public class AppUserService {
     public void deleteUserById(Long id) throws Exception {
         userRepository.deleteById(id);
     }
+    @Transactional
+    public void updateUserById(AppUserDto userDto) throws Exception {
+        userRepository.updateAppUser(userDto.getName(), userDto.getSurname()
+                , userDto.getMail(), userDto.getPhone()
+                , userDto.getUsername(),userDto.getId());
+        if (userDto.getRate() != null) {
+            userRepository.updateAppUserRate(userDto.getRate(),userDto.getId());
+        }
+        if (userDto.getProfilePhotoUrl() != null) {
+            userRepository.updateAppUserPhoto(userDto.getProfilePhotoUrl(),userDto.getId());
+        }
 
-    public void updateUserById(Long id, AppUserDto userDto) throws Exception {
-        userRepository.updateAppUser(userDto.getUsername(), userDto.getName(), userDto.getSurname()
-                , userDto.getRate(), userDto.getMail(), userDto.getPhone(), userDto.getId());
     }
 
     public void createNewUser(AppUserDto user, String password) throws Exception {
