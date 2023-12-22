@@ -1,6 +1,9 @@
 package com.beed.service;
 
+import com.beed.model.constant.Role;
 import com.beed.model.entity.AppUser;
+import org.springframework.beans.factory.annotation.Value;
+import com.beed.model.exception.InvalidAdminPasswordException;
 import com.beed.model.exception.UsernameUsedException;
 import com.beed.model.request.LoginRequest;
 import com.beed.model.request.RegisterRequest;
@@ -17,7 +20,8 @@ public class AuthService {
     private final AuthenticationManager authenticationManager;
     private final JwtService jwtService;
 
-    private final String DEFAULT_ROLE = "USER";
+    @Value("${admin-register-password}")
+    private String ADMIN_REGISTER_PASSWORD;
 
     public AuthService(AppUserService appUserService, PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager, JwtService jwtService) {
         this.appUserService = appUserService;
@@ -30,14 +34,19 @@ public class AuthService {
         if(appUserService.isUsernameUsed(registerRequest.getUsername()))
             throw new UsernameUsedException();
 
+        if (registerRequest.getIsAdmin() && !registerRequest.getAdminPassword().equals(this.ADMIN_REGISTER_PASSWORD))
+            throw new InvalidAdminPasswordException();
+
         String encryptedPassword = passwordEncoder.encode(registerRequest.getPassword());
+
+        String givenRole = registerRequest.getIsAdmin() ? Role.Admin : Role.User;
 
         AppUser newUser = AppUser.builder()
                 .name(registerRequest.getName())
                 .surname(registerRequest.getSurname())
                 .username(registerRequest.getUsername())
                 .mail(registerRequest.getMail())
-                .role(DEFAULT_ROLE)
+                .role(givenRole)
                 .phone(registerRequest.getPhone())
                 .encryptedPassword(encryptedPassword)
                 .build();
