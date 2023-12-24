@@ -14,6 +14,7 @@ public class RegisterRequest {
     private String mail;
     private String phone;
     private String password;
+    private String deviceToken;
     private Boolean isAdmin = false;
     private String adminPassword;
 }
