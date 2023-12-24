@@ -21,6 +21,6 @@ public enum NotificationText {
     }
 
     public String constructBody(String auctionName, Double auctionAmount) {
-        return auctionName + this.body + auctionAmount.toString() + " ₺.";
+        return auctionName + this.body + auctionAmount.toString() + Currency.TURKISH_LIRA.getSymbol() + ".";
     }
 }
