@@ -42,6 +42,9 @@ public class AppUser {
     @Column(name = "encrypted_password", nullable = false)
     private String encryptedPassword;
 
+    @Column(name = "device_token", nullable = false)
+    private String deviceToken;
+
     @Column(name = "role", nullable = false)
     private String role;
 
