@@ -49,6 +49,7 @@ public class AuthService {
                 .role(givenRole)
                 .phone(registerRequest.getPhone())
                 .encryptedPassword(encryptedPassword)
+                .deviceToken(registerRequest.getDeviceToken())
                 .build();
 
         appUserService.saveAppUser(newUser);
