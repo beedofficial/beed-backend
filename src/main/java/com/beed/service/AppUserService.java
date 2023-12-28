@@ -29,9 +29,6 @@ public class AppUserService {
         return convertUserEntityToDto(user);
     }
 
-    public void deleteUserById(Long id) throws Exception {
-        userRepository.deleteById(id);
-    }
     @Transactional
     public void updateUserById(AppUserDto userDto) throws Exception {
         userRepository.updateAppUser(userDto.getName(), userDto.getSurname()
@@ -43,9 +40,12 @@ public class AppUserService {
         if (userDto.getProfilePhotoUrl() != null) {
             userRepository.updateAppUserPhoto(userDto.getProfilePhotoUrl(),userDto.getId());
         }
-
     }
 
+    public boolean deleteUserById(Long id) throws Exception {
+        userRepository.deleteById(id);
+        return userRepository.findById(id).isEmpty();
+    }
     public void createNewUser(AppUserDto user, String password) throws Exception {
         userRepository.save(convertUserDtoToEntity(user, password));
     }

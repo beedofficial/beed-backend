@@ -2,11 +2,9 @@ package com.beed.controller;
 
 import com.beed.model.constant.Role;
 import com.beed.model.dto.AppUserDto;
-import com.beed.model.dto.FeedPageAuctionDto;
-import com.beed.model.entity.AppUser;
-import com.beed.model.response.GetFeedPageAuctionsControllerResponse;
 import com.beed.model.response.GetUserInfoPageControllerResponse;
 import com.beed.model.response.GetUserListResponse;
+import com.beed.model.response.DeleteUserResponse;
 import com.beed.model.response.UpdateUserInfoPageControllerResponse;
 import com.beed.service.AppUserService;
 import jakarta.annotation.security.RolesAllowed;
@@ -16,10 +14,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.security.core.Authentication;
 
 import java.util.List;
-import java.util.Optional;
 
 import static com.beed.model.constant.Error.*;
 import static com.beed.model.constant.Success.*;
@@ -75,6 +71,25 @@ public class AppUserController {
                     .build();
 
             return new ResponseEntity<>(controllerResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @DeleteMapping("/api/appuser/delete-user")
+    public ResponseEntity<DeleteUserResponse> deleteUserAdminPage(@RequestParam Long id) {
+        try {
+            appUserService.deleteUserById(id);
+            DeleteUserResponse response = DeleteUserResponse.builder()
+                    .responseMessage(DELETE_USER_SUCCESS.getDescription())
+                    .responseCode(DELETE_USER_SUCCESS.getCode())
+                    .build();
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        }
+        catch (Exception e) {
+            DeleteUserResponse response = DeleteUserResponse.builder()
+                    .responseMessage(DELETE_USER_ERROR.getDescription())
+                    .responseCode(DELETE_USER_ERROR.getCode())
+                    .build();
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
