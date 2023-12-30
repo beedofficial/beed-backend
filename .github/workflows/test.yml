@@ -40,4 +40,4 @@ jobs:
       - name: Delete old container
         run: docker rm -f beed-test-container
       - name: Run docker container
-        run: docker run -d -p 8080:8080 --name beed-test-container beedofficial/app-test
+        run: docker run -e "SPRING_PROFILES_ACTIVE=test" -d -p 8080:8080 --name beed-test-container beedofficial/app-test
