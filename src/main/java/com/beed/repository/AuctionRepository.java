@@ -3,6 +3,7 @@ package com.beed.repository;
 import com.beed.model.dto.AuctionDto;
 import com.beed.model.dto.FeedPageAuctionDto;
 import com.beed.model.dto.ProfileHistoryAuctionDto;
+import com.beed.model.entity.AppUser;
 import com.beed.model.entity.Auction;
 
 import org.springframework.data.domain.Pageable;
