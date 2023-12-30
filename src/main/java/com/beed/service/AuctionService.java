@@ -12,6 +12,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+
 import java.time.Duration;
 import java.time.OffsetDateTime;
 import java.util.List;
@@ -92,5 +93,11 @@ public class AuctionService {
         AuctionDto auctionDto = auctionRepository.getAuctionDtoById(id);
         return auctionDto;
     }
+
+    public boolean deleteAuctionById(Long Id) throws Exception{
+        auctionRepository.deleteById(Id);
+        return auctionRepository.findById(Id).isEmpty();
+    }
+
 
 }
