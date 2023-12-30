@@ -38,7 +38,7 @@ public class SecurityConfig {
     }
 
     @Bean
-    @Profile("production")
+    @Profile({"test", "production"})
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity
                 .csrf(AbstractHttpConfigurer::disable)
