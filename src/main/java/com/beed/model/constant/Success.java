@@ -12,7 +12,8 @@ public enum Success {
     CREATE_AUCTION_SUCCESS(0,"Successfully created auction."),
     ADMIN_CONTROL_SUCCESS(0, "Your admin role has been accepted by system."),
     DELETE_USER_SUCCESS(0, "Successfully deleted user."),
-    UPDATE_USER_INFO_SUCCESS(0, "Succesfully updated user info.");
+    UPDATE_USER_INFO_SUCCESS(0, "Succesfully updated user info."),
+    DELETE_AUCTION_SUCCESS(0, "Successfully deleted auction.");
 
     private final int code;
     private final String description;

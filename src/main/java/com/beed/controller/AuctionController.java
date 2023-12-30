@@ -1,10 +1,13 @@
 package com.beed.controller;
 
+import com.beed.model.constant.Role;
+import jakarta.annotation.security.RolesAllowed;
 import com.beed.model.dto.AuctionDto;
 import com.beed.model.dto.FeedPageAuctionDto;
 import com.beed.model.dto.ProfileHistoryAuctionDto;
 import com.beed.model.response.GetAuctionViewControllerResponse;
 import com.beed.model.request.CreateAuctionRequest;
+import com.beed.model.response.DeleteAuctionResponse;
 import com.beed.model.response.CreateAuctionResponse;
 import com.beed.model.response.GetFeedPageAuctionsControllerResponse;
 import com.beed.model.response.GetHotAuctionsPageControllerResponse;
@@ -137,4 +140,25 @@ public class AuctionController {
             return new ResponseEntity<>(controllerResponse, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @RolesAllowed({Role.Admin})
+    @DeleteMapping("/api/auction/delete-auction")
+    public ResponseEntity<DeleteAuctionResponse> deleteAuctionAdmin(@RequestParam Long Id){
+        try {
+            auctionService.deleteAuctionById(Id);
+            DeleteAuctionResponse response = DeleteAuctionResponse.builder()
+                    .responseMessage(DELETE_AUCTION_SUCCESS.getDescription())
+                    .responseCode(DELETE_AUCTION_SUCCESS.getCode())
+                    .build();
+            return new ResponseEntity<>(response, HttpStatus.OK);
+
+        } catch (Exception e) {
+            DeleteAuctionResponse response = DeleteAuctionResponse.builder()
+                    .responseMessage(DELETE_AUCTION_ERROR.getDescription())
+                    .responseCode(DELETE_AUCTION_ERROR.getCode())
+                    .build();
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 }
