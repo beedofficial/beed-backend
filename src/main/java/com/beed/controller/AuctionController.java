@@ -1,17 +1,13 @@
 package com.beed.controller;
 
 import com.beed.model.constant.Role;
+import com.beed.model.dto.AppUserDto;
+import com.beed.model.response.*;
 import jakarta.annotation.security.RolesAllowed;
 import com.beed.model.dto.AuctionDto;
 import com.beed.model.dto.FeedPageAuctionDto;
 import com.beed.model.dto.ProfileHistoryAuctionDto;
-import com.beed.model.response.GetAuctionViewControllerResponse;
 import com.beed.model.request.CreateAuctionRequest;
-import com.beed.model.response.DeleteAuctionResponse;
-import com.beed.model.response.CreateAuctionResponse;
-import com.beed.model.response.GetFeedPageAuctionsControllerResponse;
-import com.beed.model.response.GetHotAuctionsPageControllerResponse;
-import com.beed.model.response.GetProfileHistoryAuctionsControllerResponse;
 import com.beed.service.AuctionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -49,6 +45,43 @@ public class AuctionController {
                     .build();
 
             return new ResponseEntity<>(controllerResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/api/auction/get-winner-and-auctioneer")
+    public ResponseEntity<GetWinnersInfoResponse> getWinnersInfo(@RequestParam Long id, Authentication authentication){
+        try{
+            AppUserDto userInfo = auctionService.AuctionEndInfo(id, authentication.getName());
+            GetWinnersInfoResponse infoResponse = GetWinnersInfoResponse.builder()
+                    .AppUser(userInfo)
+                    .responseCode(GET_AUCTION_END_INFO_SUCCESS.getCode())
+                    .responseMessage(GET_AUCTION_END_INFO_SUCCESS.getDescription()).build();
+
+            return  new ResponseEntity<>(infoResponse, HttpStatus.OK);
+        } catch (Exception e){
+            GetWinnersInfoResponse infoResponse = GetWinnersInfoResponse.builder()
+                    .responseCode(GET_AUCTION_END_INFO_ERROR.getCode())
+                    .responseMessage(GET_AUCTION_END_INFO_ERROR.getDescription()).build();
+
+            return new ResponseEntity<>(infoResponse,HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/api/auction/end-date")
+    public ResponseEntity<isAuctionEndResponse> isAuctionEnd(@RequestParam Long id){
+        try{
+            isAuctionEndResponse response = isAuctionEndResponse.builder()
+                    .end(auctionService.isAuctionEnd(id))
+                    .responseCode(IS_AUTION_END_SUCCESS.getCode())
+                    .responseMessage(IS_AUTION_END_SUCCESS.getDescription()).build();
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        }
+        catch (Exception e){
+            isAuctionEndResponse response = isAuctionEndResponse.builder()
+                    .responseCode(IS_AUCTION_END_ERROR.getCode())
+                    .responseMessage(IS_AUCTION_END_ERROR.getDescription()).build();
+
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 

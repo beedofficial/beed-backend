@@ -1,5 +1,6 @@
 package com.beed.service;
 
+import com.beed.model.dto.AppUserDto;
 import com.beed.model.dto.BidDto;
 import com.beed.model.dto.ProfileHistoryBidDto;
 import com.beed.model.entity.AppUser;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.beed.utility.AppUserUtil.convertUserEntityToDto;
 import static com.beed.utility.BidUtil.convertBidToDto;
 
 @Service
@@ -32,6 +34,10 @@ public class BidService {
         }else{
             return null;
         }
+    }
+
+    public AppUserDto higgestBidderInfo(long auctionId) throws Exception {
+        return convertUserEntityToDto(bidRepository.findHiggestBidder(auctionId));
     }
 
     public List<BidDto> getBidsByBidder(long bidderId) {

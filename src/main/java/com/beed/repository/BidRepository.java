@@ -1,5 +1,6 @@
 package com.beed.repository;
 
+import com.beed.model.dto.AppUserDto;
 import com.beed.model.dto.ProfileHistoryAuctionDto;
 import com.beed.model.dto.ProfileHistoryBidDto;
 import com.beed.model.entity.AppUser;
@@ -19,6 +20,9 @@ import java.util.List;
 public interface BidRepository extends JpaRepository<Bid,Long>, PagingAndSortingRepository<Bid, Long> {
     @Query("SELECT b FROM Bid b WHERE b.bidder.id = :bidderId")
     List<Bid> findByBidder(@Param("bidderId") long bidderId);
+
+    @Query("SELECT b.bidder FROM Bid b WHERE b.auction.id = :auctionId ORDER BY b.amount DESC LIMIT 1")
+    AppUser findHiggestBidder(@Param("auctionId") long auctionId);
 
     @Query("SELECT b FROM Bid b WHERE b.auction.id = :auctionId")
     List<Bid> findByAuction(@Param("auctionId") long auctionId);
