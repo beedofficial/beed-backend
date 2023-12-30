@@ -9,7 +9,7 @@ jobs:
   build:
     runs-on: [ubuntu-latest]
     env:
-      SPRING_ACTIVE_PROFILES: test
+      SPRING_PROFILES_ACTIVE: test
       TEST_DATABASE_URL: ${{secrets.TEST_DATABASE_URL}}
       TEST_DATABASE_USERNAME: ${{secrets.TEST_DATABASE_USERNAME}}
       TEST_DATABASE_PASSWORD: ${{secrets.TEST_DATABASE_PASSWORD}}
