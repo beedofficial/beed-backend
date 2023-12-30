@@ -87,6 +87,10 @@ public class AuctionService {
         return savedAuction.getId();
     }
 
+    public boolean deleteAuctionById(Long Id) throws Exception{
+        auctionRepository.deleteById(Id);
+        return auctionRepository.findById(Id).isEmpty();
+    }
 
     public AuctionDto getAuctionInfo(Long id){
         AuctionDto auctionDto = auctionRepository.getAuctionDtoById(id);
