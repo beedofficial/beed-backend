@@ -74,6 +74,7 @@ public class AppUserController {
         }
     }
 
+    @RolesAllowed({Role.Admin})
     @DeleteMapping("/api/appuser/delete-user")
     public ResponseEntity<DeleteUserResponse> deleteUserAdminPage(@RequestParam Long id) {
         try {
