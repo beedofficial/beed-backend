@@ -14,7 +14,8 @@ public enum Error {
 
     INVALID_ADMIN_PASSWORD_ERROR(11, "You can not register as a admin because the admin password you entered is invalid."),
 
-    UPDATE_USER_INFO_ERROR(12, "Failed to update user info.");
+    UPDATE_USER_INFO_ERROR(12, "Failed to update user info."),
+    DELETE_USER_ERROR(13, "Failed to delete user.");
 
     private final int code;
     private final String description;
