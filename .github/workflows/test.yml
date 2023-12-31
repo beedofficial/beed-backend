@@ -3,7 +3,7 @@ name: TEST
 on:
   push:
     branches:
-      [feature/config-cloud-deployment]
+      [develop]
 
 jobs:
   build:
