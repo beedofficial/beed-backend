@@ -35,7 +35,6 @@ jobs:
     needs: build
     runs-on: [beed-test]
     env:
-      SPRING_PROFILES_ACTIVE: test
       TEST_DATABASE_URL: ${{secrets.TEST_DATABASE_URL}}
       TEST_DATABASE_USERNAME: ${{secrets.TEST_DATABASE_USERNAME}}
       TEST_DATABASE_PASSWORD: ${{secrets.TEST_DATABASE_PASSWORD}}
@@ -48,8 +47,4 @@ jobs:
       - name: Run docker container
         run: docker run -d -p 8080:8080
           -e SPRING_PROFILES_ACTIVE=test
-          -e TEST_DATABASE_URL=${{secrets.TEST_DATABASE_URL}}
-          -e TEST_DATABASE_USERNAME=${{secrets.TEST_DATABASE_USERNAME}}
-          -e TEST_DATABASE_PASSWORD=${{secrets.TEST_DATABASE_PASSWORD}}
-          -e TEST_ADMIN_PASSWORD=${{secrets.TEST_ADMIN_PASSWORD}}
           --name beed-test-container beedofficial/app-test
