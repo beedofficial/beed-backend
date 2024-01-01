@@ -122,5 +122,12 @@ public class AuctionService {
         return auctionRepository.findById(Id).isEmpty();
     }
 
+    public Long getMinStartBid(Long Id){
+        AuctionDto auctionDto = auctionRepository.getAuctionDtoById(Id);
+        return auctionDto.getMinStartBid();
+    }
+
+
+
 
 }

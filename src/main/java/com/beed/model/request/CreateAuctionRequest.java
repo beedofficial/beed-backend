@@ -10,7 +10,7 @@ import lombok.Setter;
 public class CreateAuctionRequest {
     private String title;
     private String description;
-    private double minStartBid;
+    private Long minStartBid;
     private int durationInfo;
     private String imageUrl;
 }

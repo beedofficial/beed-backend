@@ -41,5 +41,5 @@ public class Auction {
     private OffsetDateTime endDate;
 
     @Column(name = "min_start_bid", nullable = false)
-    private double minStartBid;
+    private Long minStartBid;
 }

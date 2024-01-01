@@ -6,6 +6,8 @@ import com.beed.model.dto.ProfileHistoryBidDto;
 import com.beed.model.entity.AppUser;
 import com.beed.model.entity.Auction;
 import com.beed.model.entity.Bid;
+import com.beed.model.exception.LowBidThanHighestBidException;
+import com.beed.model.exception.LowBidThanMinStartBidException;
 import com.beed.repository.BidRepository;
 import com.beed.utility.BidUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,6 +29,7 @@ public class BidService {
 
     @Autowired
     AppUserService appUserService;
+    AuctionService auctionService;
 
     public BidDto getBidById(Long Id){
         Bid bid = bidRepository.findById(Id).orElse(null);
@@ -78,4 +82,37 @@ public class BidService {
         Pageable pageWithTenElements = PageRequest.of(page, 10);
         return bidRepository.getProfileHistoryBids(userId, pageWithTenElements);
     }
+
+    public Long getHighestBidValue(Long auctionId){
+        Bid highestBid = bidRepository.findTopByAuctionOrderByAmountDesc(auctionId);
+        if (highestBid != null) {
+            return highestBid.getAmount();
+        } else {
+            return null;
+        }
+    }
+
+    public void addBid(BidDto bidDto) throws Exception {
+        Auction auction = bidDto.getAuction();
+        Long auctionId = auction.getId();
+        Long bidAmount = bidDto.getAmount();
+
+        if(getHighestBidValue(auctionId) != null){
+            if (getHighestBidValue(auctionId) >= bidAmount){
+                throw new LowBidThanHighestBidException();
+            }
+            else {
+                createNewBid(bidDto);
+            }
+        }
+        else {
+            if(auctionService.getMinStartBid(auctionId) > bidAmount){
+                throw new LowBidThanMinStartBidException();
+            }
+            else{
+                createNewBid(bidDto);
+            }
+        }
+    }
+
 }
