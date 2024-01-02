@@ -78,4 +78,9 @@ public class BidService {
         Pageable pageWithTenElements = PageRequest.of(page, 10);
         return bidRepository.getProfileHistoryBids(userId, pageWithTenElements);
     }
+
+    public boolean deleteBidById(Long Id) throws Exception{
+        bidRepository.deleteById(Id);
+        return bidRepository.findById(Id).isEmpty();
+    }
 }
