@@ -39,7 +39,7 @@ public interface BidRepository extends JpaRepository<Bid,Long>, PagingAndSorting
     List<ProfileHistoryBidDto> getProfileHistoryBids(@Param("bidderId") Long bidderId, Pageable pageable);
 
     @Query("SELECT new com.beed.model.dto.BidDto(" +
-            "a.id, a.auction, a.bidder, a.amount, a.date) " +
+            "a.id, a.auction.auctionImageUrl, a.auction.title, a.bidder, a.amount, a.date) " +
             "FROM Bid a ")
     List<BidDto> getBidsInfos(Pageable pageable);
 }
