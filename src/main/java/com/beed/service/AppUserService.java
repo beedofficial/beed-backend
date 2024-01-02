@@ -75,4 +75,9 @@ public class AppUserService {
         Pageable pageWithTenElements = PageRequest.of(page, 10);
         return userRepository.getUsersInfos(pageWithTenElements);
     }
+    @Transactional
+    public void updateUserRateById(AppUserDto userDto) throws Exception {
+        userRepository.updateRating(userDto.getRate(),userDto.getId());
+    }
+
 }

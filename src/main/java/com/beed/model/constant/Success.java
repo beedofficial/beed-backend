@@ -17,7 +17,8 @@ public enum Success {
     DELETE_AUCTION_SUCCESS(0, "Successfully deleted auction."),
     IS_AUTION_END_SUCCESS(0, "Successfully checked end date."),
     DELETE_BID_SUCCESS(0, "Successfully deleted bid."),
-    GET_ALL_BIDS_INFO_SUCCESS(0, "Successfully retrieved all bids' information.");
+    GET_ALL_BIDS_INFO_SUCCESS(0, "Successfully retrieved all bids' information."),
+    UPDATE_USER_RATE_SUCCESS(0, "Successfully updated rate.");
 
     private final int code;
     private final String description;

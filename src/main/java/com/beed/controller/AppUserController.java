@@ -124,4 +124,35 @@ public class AppUserController {
 
         }
     }
+
+    @PutMapping("/api/appuser/update-user-rate")
+    public ResponseEntity<UpdateUserInfoPageControllerResponse> updateUserRate(@RequestBody AppUserDto userDto) {
+        try {
+            Long id = userDto.getId();
+            AppUserDto oldUser = appUserService.getUserByID(id);
+            AppUserDto userDtoFilled = appUserUtil.fillBlank(userDto, oldUser);
+
+            appUserService.updateUserRateById(userDtoFilled);
+
+            AppUserDto userUpdated = appUserService.getUserByID(id);
+
+            UpdateUserInfoPageControllerResponse controllerResponse = UpdateUserInfoPageControllerResponse.builder()
+                    .responseMessage(UPDATE_USER_RATE_SUCCESS.getDescription())
+                    .responseCode(UPDATE_USER_RATE_SUCCESS.getCode())
+                    .updatedUser(userUpdated)
+                    .build();
+
+            return new ResponseEntity<>(controllerResponse, HttpStatus.OK);
+
+        } catch (Exception e) {
+
+            UpdateUserInfoPageControllerResponse controllerResponse = UpdateUserInfoPageControllerResponse.builder()
+                    .responseMessage(UPDATE_USER_RATE_ERROR.getDescription() + ":" + e.toString())
+                    .responseCode(UPDATE_USER_RATE_ERROR.getCode())
+                    .build();
+
+            return new ResponseEntity<>(controllerResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+
+        }
+    }
 }

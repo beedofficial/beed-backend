@@ -33,6 +33,9 @@ public class AppUser {
     @Column(name = "rate")
     private Double rate;
 
+    @Column(name = "rate")
+    private Integer numOfRaters;
+
     @Column(name = "mail", nullable = false)
     private String mail;
 
