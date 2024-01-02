@@ -31,7 +31,7 @@ public interface BidRepository extends JpaRepository<Bid,Long>, PagingAndSorting
     Bid findTopByAuctionOrderByAmountDesc(@Param("auctionId") long auctionId);
 
     @Query("SELECT new com.beed.model.dto.ProfileHistoryBidDto(" +
-            "a.id, a.auction.title, a.auction.id, a.amount, a.date) " +
+            "a.id, a.auction.title, a.auction.id, a.amount, a.date, a.auction.auctionImageUrl, a.auction.endDate) " +
             "FROM Bid a " +
             "WHERE a.bidder.id = :bidderId " +
             "ORDER BY a.date DESC")
