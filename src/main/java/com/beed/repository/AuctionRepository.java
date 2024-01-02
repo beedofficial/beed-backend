@@ -53,4 +53,11 @@ public interface AuctionRepository extends JpaRepository<Auction,Long>, PagingAn
             "FROM Auction a " +
             "WHERE a.id = :id ")
     AuctionDto getAuctionDtoById(@Param("id") Long id);
+
+    @Query("SELECT a.auctioneer.id FROM Auction a WHERE a.id = :auctionId")
+    Long getAuctioneerId(@Param("auctionId") Long auctionId);
+
+    @Query("SELECT a.title FROM Auction a WHERE a.id = :auctionId")
+    String getAuctionTitle(@Param("auctionId") Long auctionId);
+
 }

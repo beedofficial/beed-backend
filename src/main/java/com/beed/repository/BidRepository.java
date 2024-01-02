@@ -22,7 +22,10 @@ public interface BidRepository extends JpaRepository<Bid,Long>, PagingAndSorting
     List<Bid> findByBidder(@Param("bidderId") long bidderId);
 
     @Query("SELECT b.bidder FROM Bid b WHERE b.auction.id = :auctionId ORDER BY b.amount DESC LIMIT 1")
-    AppUser findHiggestBidder(@Param("auctionId") long auctionId);
+    AppUser findHighestBidder(@Param("auctionId") long auctionId);
+
+    @Query("SELECT b.bidder.deviceToken FROM Bid b WHERE b.auction.id = :auctionId ORDER BY b.amount DESC LIMIT 1")
+    String getHighestBidderDeviceToken(@Param("auctionId") Long auctionId);
 
     @Query("SELECT b FROM Bid b WHERE b.auction.id = :auctionId")
     List<Bid> findByAuction(@Param("auctionId") long auctionId);

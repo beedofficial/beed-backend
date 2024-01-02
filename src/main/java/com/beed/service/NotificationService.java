@@ -23,7 +23,7 @@ public class NotificationService {
      * @return firebase message id
      * @throws FirebaseMessagingException if failed
      */
-    public String notifyAuctioneer(String deviceToken, Double bidAmount, String auctionName) throws FirebaseMessagingException {
+    public String notifyAuctioneer(String deviceToken, Long bidAmount, String auctionName) throws FirebaseMessagingException {
         Message message = Message.builder()
                 .setNotification(Notification.builder()
                         .setTitle(NotificationText.NOTIFY_AUCTIONEER.getTitle())
@@ -43,7 +43,7 @@ public class NotificationService {
      * @return firebase message id
      * @throws FirebaseMessagingException if failed
      */
-    public String notifyPreviousBidder(String deviceToken, Double newBidAmount, String auctionName) throws FirebaseMessagingException {
+    public String notifyPreviousBidder(String deviceToken, Long newBidAmount, String auctionName) throws FirebaseMessagingException {
         Message message = Message.builder()
                 .setNotification(Notification.builder()
                         .setTitle(NotificationText.NOTIFY_PREVIOUS_BIDDER.getTitle())

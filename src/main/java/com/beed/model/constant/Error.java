@@ -20,9 +20,10 @@ public enum Error {
     DELETE_AUCTION_ERROR(14, "Failed to delete auction."),
     GET_AUCTION_END_INFO_ERROR(15, "Failed to get users info."),
     IS_AUCTION_END_ERROR(16, "Failed to check end date."),
-    BID_LOWER_THAN_HIGHEST_BID(17, "Please submit a bid that surpasses the current highest offer."),
+    BID_LOWER_THAN_HIGHEST_BID(17, "Please reload page and submit a bid that surpasses the current highest offer."),
     BID_LOWER_THAN_MIN_START_BID(18, "Please submit a bid that surpasses the minimum bid value."),
-    BID_ERROR(19, "Failed to add new bid.");
+    BID_ERROR(19, "Failed to add new bid."),
+    BIDDING_OWNED_AUCTION(20, "You can't bid your own auction");
 
     private final int code;
     private final String description;

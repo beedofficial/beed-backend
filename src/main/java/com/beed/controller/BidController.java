@@ -4,6 +4,7 @@ import com.beed.model.dto.BidDto;
 import com.beed.model.dto.ProfileHistoryBidDto;
 import com.beed.model.exception.LowBidThanHighestBidException;
 import com.beed.model.exception.LowBidThanMinStartBidException;
+import com.beed.model.request.CreateBidRequest;
 import com.beed.model.response.BaseControllerResponse;
 import com.beed.model.response.CreateAuctionResponse;
 import com.beed.model.response.GetProfileHistoryBidsControllerResponse;
@@ -49,9 +50,9 @@ public class BidController {
     }
 
     @PostMapping("/api/bid/create-bid")
-    public  ResponseEntity<CreateAuctionResponse> createBid(@RequestBody BidDto bidDto){
+    public  ResponseEntity<CreateAuctionResponse> createBid(@RequestBody CreateBidRequest createBidRequest, Authentication authentication){
         try {
-            bidService.addBid(bidDto);
+            bidService.addBid(createBidRequest, authentication.getName());
 
             CreateAuctionResponse controllerResponse = CreateAuctionResponse.builder()
                     .responseMessage(BID_SUCCESS.getDescription())

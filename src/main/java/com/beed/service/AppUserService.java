@@ -54,6 +54,10 @@ public class AppUserService {
         return userRepository.findAppUserByUsername(username).isPresent();
     }
 
+    public String getUserDeviceToken(Long Id){
+        return userRepository.getUserDeviceTokenById(Id);
+    }
+
     public Optional<AppUser> getUserByUsername(String username) {
         return userRepository.findAppUserByUsername(username);
     }
@@ -75,4 +79,5 @@ public class AppUserService {
         Pageable pageWithTenElements = PageRequest.of(page, 10);
         return userRepository.getUsersInfos(pageWithTenElements);
     }
+
 }

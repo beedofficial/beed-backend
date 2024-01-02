@@ -48,6 +48,10 @@ public interface AppUserRepository extends JpaRepository<AppUser, Long> {
     @Query("SELECT u.id from AppUser u WHERE u.username = :username")
     Long getUserIdByUsername(@Param("username") String username);
 
+    @Query("SELECT u.deviceToken from AppUser u WHERE u.id = :id")
+    String getUserDeviceTokenById(@Param("id") Long id);
+
+
     @Query("SELECT new com.beed.model.dto.AppUserDto(" +
             "a.id, a.username, a.name, a.surname, a.rate, a.mail, a.phone, a.profilePhotoUrl) " +
             "FROM AppUser a " +
