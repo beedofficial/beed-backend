@@ -13,6 +13,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -76,6 +77,10 @@ public class BidService {
     public List<ProfileHistoryBidDto> getProfileHistoryBids(String username, Integer page) {
         Long userId = appUserService.getUserIdByUsername(username);
         Pageable pageWithTenElements = PageRequest.of(page, 10);
-        return bidRepository.getProfileHistoryBids(userId, pageWithTenElements);
+        List<ProfileHistoryBidDto> profileHistoryBidList = bidRepository.getProfileHistoryBids(userId, pageWithTenElements);
+        profileHistoryBidList.forEach(bid -> {
+            bid.setDone(OffsetDateTime.now().isAfter(bid.getAuctionEndDate()));
+        });
+        return profileHistoryBidList;
     }
 }
