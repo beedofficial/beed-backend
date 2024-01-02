@@ -50,6 +50,8 @@ public class AuthService {
                 .phone(registerRequest.getPhone())
                 .encryptedPassword(encryptedPassword)
                 .deviceToken(registerRequest.getDeviceToken())
+                .rate(0.0)
+                .numOfRaters(0)
                 .build();
 
         appUserService.saveAppUser(newUser);

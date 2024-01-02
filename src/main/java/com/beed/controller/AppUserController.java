@@ -2,6 +2,8 @@ package com.beed.controller;
 
 import com.beed.model.constant.Role;
 import com.beed.model.dto.AppUserDto;
+import com.beed.model.request.RegisterRequest;
+import com.beed.model.request.UpdateRateRequest;
 import com.beed.model.response.GetUserInfoPageControllerResponse;
 import com.beed.model.response.GetUserListResponse;
 import com.beed.model.response.DeleteUserResponse;
@@ -126,15 +128,14 @@ public class AppUserController {
     }
 
     @PutMapping("/api/appuser/update-user-rate")
-    public ResponseEntity<UpdateUserInfoPageControllerResponse> updateUserRate(@RequestBody AppUserDto userDto) {
+    public ResponseEntity<UpdateUserInfoPageControllerResponse> updateUserRate(@RequestBody UpdateRateRequest req) {
         try {
-            Long id = userDto.getId();
-            AppUserDto oldUser = appUserService.getUserByID(id);
-            AppUserDto userDtoFilled = appUserUtil.fillBlank(userDto, oldUser);
+            Long userId = req.getId();
+            Double newRate = req.getRate();
 
-            appUserService.updateUserRateById(userDtoFilled);
+            appUserService.updateUserRateById(newRate, userId);
 
-            AppUserDto userUpdated = appUserService.getUserByID(id);
+            AppUserDto userUpdated = appUserService.getUserByID(userId);
 
             UpdateUserInfoPageControllerResponse controllerResponse = UpdateUserInfoPageControllerResponse.builder()
                     .responseMessage(UPDATE_USER_RATE_SUCCESS.getDescription())

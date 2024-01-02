@@ -31,10 +31,10 @@ public class AppUser {
     private String profilePhotoUrl;
 
     @Column(name = "rate")
-    private Double rate;
+    private Double rate = 0.0;
 
-    @Column(name = "rate")
-    private Integer numOfRaters;
+    @Column(name = "numOfRaters")
+    private Integer numOfRaters = 0;
 
     @Column(name = "mail", nullable = false)
     private String mail;

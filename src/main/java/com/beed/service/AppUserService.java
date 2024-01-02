@@ -76,8 +76,8 @@ public class AppUserService {
         return userRepository.getUsersInfos(pageWithTenElements);
     }
     @Transactional
-    public void updateUserRateById(AppUserDto userDto) throws Exception {
-        userRepository.updateRating(userDto.getRate(),userDto.getId());
+    public void updateUserRateById(Double newRate, Long id) throws Exception {
+        userRepository.updateRating(newRate,id);
     }
 
 }
