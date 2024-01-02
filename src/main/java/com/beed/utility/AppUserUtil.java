@@ -54,6 +54,9 @@ public class AppUserUtil {
         if(userDto.getPhone() == null){
             userDto.setPhone(oldUser.getPhone());
         }
+        if(userDto.getRate() == null){
+            userDto.setRate(oldUser.getRate());
+        }
         return userDto;
     }
 }

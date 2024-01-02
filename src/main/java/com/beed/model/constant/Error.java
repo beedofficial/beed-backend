@@ -20,7 +20,8 @@ public enum Error {
     GET_AUCTION_END_INFO_ERROR(15, "Failed to get users info."),
     IS_AUCTION_END_ERROR(16, "Failed to check end date."),
     DELETE_BID_ERROR(17, "Failed to delete bid."),
-    GET_ALL_BIDS_INFO_ERROR(18,"Failed to retrieve bids");
+    GET_ALL_BIDS_INFO_ERROR(18,"Failed to retrieve bids"),
+    UPDATE_USER_RATE_ERROR(19, "Failed to update rate.");
 
     private final int code;
     private final String description;

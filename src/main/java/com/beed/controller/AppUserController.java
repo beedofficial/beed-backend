@@ -2,6 +2,8 @@ package com.beed.controller;
 
 import com.beed.model.constant.Role;
 import com.beed.model.dto.AppUserDto;
+import com.beed.model.request.RegisterRequest;
+import com.beed.model.request.UpdateRateRequest;
 import com.beed.model.response.GetUserInfoPageControllerResponse;
 import com.beed.model.response.GetUserListResponse;
 import com.beed.model.response.DeleteUserResponse;
@@ -118,6 +120,36 @@ public class AppUserController {
             UpdateUserInfoPageControllerResponse controllerResponse = UpdateUserInfoPageControllerResponse.builder()
                     .responseMessage(UPDATE_USER_INFO_ERROR.getDescription() + ":" + e.toString())
                     .responseCode(UPDATE_USER_INFO_ERROR.getCode())
+                    .build();
+
+            return new ResponseEntity<>(controllerResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+
+        }
+    }
+
+    @PutMapping("/api/appuser/update-user-rate")
+    public ResponseEntity<UpdateUserInfoPageControllerResponse> updateUserRate(@RequestBody UpdateRateRequest req) {
+        try {
+            Long userId = req.getId();
+            Double newRate = req.getRate();
+
+            appUserService.updateUserRateById(newRate, userId);
+
+            AppUserDto userUpdated = appUserService.getUserByID(userId);
+
+            UpdateUserInfoPageControllerResponse controllerResponse = UpdateUserInfoPageControllerResponse.builder()
+                    .responseMessage(UPDATE_USER_RATE_SUCCESS.getDescription())
+                    .responseCode(UPDATE_USER_RATE_SUCCESS.getCode())
+                    .updatedUser(userUpdated)
+                    .build();
+
+            return new ResponseEntity<>(controllerResponse, HttpStatus.OK);
+
+        } catch (Exception e) {
+
+            UpdateUserInfoPageControllerResponse controllerResponse = UpdateUserInfoPageControllerResponse.builder()
+                    .responseMessage(UPDATE_USER_RATE_ERROR.getDescription() + ":" + e.toString())
+                    .responseCode(UPDATE_USER_RATE_ERROR.getCode())
                     .build();
 
             return new ResponseEntity<>(controllerResponse, HttpStatus.INTERNAL_SERVER_ERROR);
