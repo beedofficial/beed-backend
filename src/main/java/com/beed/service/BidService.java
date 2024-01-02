@@ -83,4 +83,9 @@ public class BidService {
         });
         return profileHistoryBidList;
     }
+
+    public boolean deleteBidById(Long Id) throws Exception{
+        bidRepository.deleteById(Id);
+        return bidRepository.findById(Id).isEmpty();
+    }
 }
