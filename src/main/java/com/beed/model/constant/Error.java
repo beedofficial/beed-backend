@@ -19,7 +19,8 @@ public enum Error {
     DELETE_AUCTION_ERROR(14, "Failed to delete auction."),
     GET_AUCTION_END_INFO_ERROR(15, "Failed to get users info."),
     IS_AUCTION_END_ERROR(16, "Failed to check end date."),
-    DELETE_BID_ERROR(17, "Failed to delete bid.");
+    DELETE_BID_ERROR(17, "Failed to delete bid."),
+    GET_ALL_BIDS_INFO_ERROR(18,"Failed to retrieve bids");
 
     private final int code;
     private final String description;
