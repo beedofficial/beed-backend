@@ -36,11 +36,15 @@ public class AuctionService {
     BidService bidService;
 
 
-    public boolean isAuctionEnd(long id) throws Exception{
-        return auctionRepository.findById(id).get().getEndDate().compareTo(OffsetDateTime.now()) < 0;
+    public boolean isAuctionEnd(long id, String username) throws Exception{
+        AppUser user = appUserService.getUserByUsername(username).get();
+        if(user.getId() == AuctionEndAuctioneerInfo(id).getId() || user.getId() == bidService.higgestBidderInfo(id).getId())
+            return auctionRepository.findById(id).get().getEndDate().compareTo(OffsetDateTime.now()) < 0;
+        else
+            return false;
     }
     public AppUserDto AuctionEndInfo(long id, String username) throws Exception{
-        if (isAuctionEnd(id)){
+        if (isAuctionEnd(id, username)){
             AppUserDto auctioneer = AuctionEndAuctioneerInfo(id);
             if (Objects.equals(auctioneer.getUsername(), username)){
                 return bidService.higgestBidderInfo(id);
