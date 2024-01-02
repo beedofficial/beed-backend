@@ -1,8 +1,10 @@
 package com.beed.controller;
 
 import com.beed.model.constant.Role;
+import com.beed.model.dto.BidDto;
 import com.beed.model.dto.ProfileHistoryBidDto;
 import com.beed.model.response.DeleteBidResponse;
+import com.beed.model.response.GetBidListResponse;
 import com.beed.model.response.GetProfileHistoryBidsControllerResponse;
 import com.beed.service.BidService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,10 +19,8 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.annotation.security.RolesAllowed;
 import java.util.List;
 
-import static com.beed.model.constant.Error.DELETE_BID_ERROR;
-import static com.beed.model.constant.Error.GET_PROFILE_HISTORY_BIDS_ERROR;
-import static com.beed.model.constant.Success.DELETE_BID_SUCCESS;
-import static com.beed.model.constant.Success.GET_PROFILE_HISTORY_BIDS_SUCCESS;
+import static com.beed.model.constant.Error.*;
+import static com.beed.model.constant.Success.*;
 
 @RestController
 public class BidController {
@@ -67,6 +67,29 @@ public class BidController {
                     .responseCode(DELETE_BID_ERROR.getCode())
                     .build();
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/api/bid/get-all-bids")
+    public ResponseEntity<GetBidListResponse> getFeedBidPage(@RequestParam Integer page) {
+        try {
+            List<BidDto> bidDtos = bidService.getBidList(page);
+
+            GetBidListResponse controllerResponse = GetBidListResponse.builder()
+                    .bidDtoList(bidDtos)
+                    .responseMessage(GET_ALL_BIDS_INFO_SUCCESS.getDescription())
+                    .responseCode(GET_ALL_BIDS_INFO_SUCCESS.getCode())
+                    .build();
+
+            return new ResponseEntity<>(controllerResponse, HttpStatus.OK);
+
+        } catch (Exception e) {
+            GetBidListResponse controllerResponse = GetBidListResponse.builder()
+                    .responseMessage(GET_ALL_BIDS_INFO_ERROR.getDescription() + ":" + e.toString())
+                    .responseCode(GET_ALL_BIDS_INFO_ERROR.getCode())
+                    .build();
+
+            return new ResponseEntity<>(controllerResponse, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }

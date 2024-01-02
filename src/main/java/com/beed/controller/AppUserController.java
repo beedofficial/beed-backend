@@ -52,7 +52,7 @@ public class AppUserController {
 
     @RolesAllowed({Role.Admin})
     @GetMapping("/api/appuser/get-all-users")
-    public ResponseEntity<GetUserListResponse> getFeedAuctionsPage(@RequestParam Integer page) {
+    public ResponseEntity<GetUserListResponse> getFeedUsersPage(@RequestParam Integer page) {
         try {
             List<AppUserDto> appUserDtos = appUserService.getUserList(page);
 

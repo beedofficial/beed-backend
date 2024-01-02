@@ -88,4 +88,9 @@ public class BidService {
         bidRepository.deleteById(Id);
         return bidRepository.findById(Id).isEmpty();
     }
+
+    public List<BidDto> getBidList(Integer page) throws Exception {
+        Pageable pageWithTenElements = PageRequest.of(page, 10);
+        return bidRepository.getBidsInfos(pageWithTenElements);
+    }
 }
