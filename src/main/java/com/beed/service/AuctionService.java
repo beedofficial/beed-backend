@@ -40,7 +40,7 @@ public class AuctionService {
 
     public boolean isAuctionEnd(long id, String username) throws Exception{
         AppUser user = appUserService.getUserByUsername(username).get();
-        if(user.getId() == AuctionEndAuctioneerInfo(id).getId() || user.getId() == bidService.higgestBidderInfo(id).getId())
+        if(user.getId() == AuctionEndAuctioneerInfo(id).getId() || user.getId() == bidService.getHighestBidderInfo(id).getId())
             return auctionRepository.findById(id).get().getEndDate().compareTo(OffsetDateTime.now()) < 0;
         else
             return false;

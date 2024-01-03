@@ -61,7 +61,7 @@ public class BidController {
     }
 
     @PostMapping("/api/bid/create-bid")
-    public  ResponseEntity<CreateAuctionResponse> createBid(@RequestBody CreateBidRequest createBidRequest, Authentication authentication){
+    public  ResponseEntity<CreateAuctionResponse> createBid(@RequestBody CreateBidRequest createBidRequest, Authentication authentication) {
         try {
             bidService.addBid(createBidRequest, authentication.getName());
 
@@ -72,27 +72,26 @@ public class BidController {
             return new ResponseEntity<>(controllerResponse, HttpStatus.OK);
 
 
-        }catch (LowBidThanHighestBidException e){
+        } catch (LowBidThanHighestBidException e) {
             CreateAuctionResponse controllerResponse = CreateAuctionResponse.builder()
                     .responseMessage(BID_LOWER_THAN_HIGHEST_BID.getDescription())
                     .responseCode(BID_LOWER_THAN_HIGHEST_BID.getCode())
                     .build();
             return new ResponseEntity<>(controllerResponse, HttpStatus.BAD_REQUEST);
-        }
-        catch (LowBidThanMinStartBidException e){
+        } catch (LowBidThanMinStartBidException e) {
             CreateAuctionResponse controllerResponse = CreateAuctionResponse.builder()
                     .responseMessage(BID_LOWER_THAN_MIN_START_BID.getDescription())
                     .responseCode(BID_LOWER_THAN_MIN_START_BID.getCode())
                     .build();
             return new ResponseEntity<>(controllerResponse, HttpStatus.BAD_REQUEST);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             CreateAuctionResponse controllerResponse = CreateAuctionResponse.builder()
                     .responseMessage(BID_ERROR.getDescription())
                     .responseCode(BID_ERROR.getCode())
                     .build();
             return new ResponseEntity<>(controllerResponse, HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
 
     @RolesAllowed({Role.Admin})
     @DeleteMapping("/api/bid/delete-bid")
