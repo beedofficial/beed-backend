@@ -18,6 +18,7 @@ import java.util.List;
 
 @Repository
 public interface AuctionRepository extends JpaRepository<Auction,Long>, PagingAndSortingRepository<Auction, Long> {
+    Auction findAuctionById(Long Id);
     @Query("SELECT new com.beed.model.dto.FeedPageAuctionDto(" +
             "a.id, a.title, a.minStartBid, a.auctionImageUrl) " +
             "FROM Auction a " +
@@ -52,4 +53,11 @@ public interface AuctionRepository extends JpaRepository<Auction,Long>, PagingAn
             "FROM Auction a " +
             "WHERE a.id = :id ")
     AuctionDto getAuctionDtoById(@Param("id") Long id);
+
+    @Query("SELECT a.auctioneer.id FROM Auction a WHERE a.id = :auctionId")
+    Long getAuctioneerId(@Param("auctionId") Long auctionId);
+
+    @Query("SELECT a.title FROM Auction a WHERE a.id = :auctionId")
+    String getAuctionTitle(@Param("auctionId") Long auctionId);
+
 }

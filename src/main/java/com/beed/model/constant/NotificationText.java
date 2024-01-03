@@ -20,7 +20,7 @@ public enum NotificationText {
         return body;
     }
 
-    public String constructBody(String auctionName, Double auctionAmount) {
+    public String constructBody(String auctionName, Long auctionAmount) {
         return auctionName + this.body + auctionAmount.toString() + Currency.TURKISH_LIRA.getSymbol() + ".";
     }
 }

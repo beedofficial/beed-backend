@@ -6,6 +6,7 @@ import com.beed.model.dto.FeedPageAuctionDto;
 import com.beed.model.dto.ProfileHistoryAuctionDto;
 import com.beed.model.entity.AppUser;
 import com.beed.model.entity.Auction;
+import com.beed.service.AppUserService;
 import com.beed.model.request.CreateAuctionRequest;
 import com.beed.repository.AuctionRepository;
 import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
@@ -32,6 +33,7 @@ public class AuctionService {
 
     @Autowired
     AppUserService appUserService;
+
     @Autowired
     BidService bidService;
 
@@ -47,7 +49,7 @@ public class AuctionService {
         if (isAuctionEnd(id, username)){
             AppUserDto auctioneer = AuctionEndAuctioneerInfo(id);
             if (Objects.equals(auctioneer.getUsername(), username)){
-                return bidService.higgestBidderInfo(id);
+                return bidService.getHighestBidderInfo(id);
             }
             return auctioneer;
         }
@@ -56,7 +58,7 @@ public class AuctionService {
     public AppUserDto AuctionEndAuctioneerInfo(long id) throws Exception{
         return convertUserEntityToDto(auctionRepository.findById(id).get().getAuctioneer());
     }
-    public AuctionDto getAuctionbyId(Long Id){
+    public AuctionDto getAuctionById(Long Id){
         Auction auction = auctionRepository.findById(Id).get();
         return convertAuctiontoDto(auction);
     }
@@ -91,9 +93,8 @@ public class AuctionService {
                 oneHourAgo, oneDayAgo, threeDaysAgo, oneWeekAgo, pageWithTenElements);
     }
     public Long createAuction(CreateAuctionRequest createAuctionRequest, String username) {
-        Long userId = appUserService.getUserIdByUsername(username);
-
-        AppUser appUser = appUserService.userRepository.findAppUserById(userId);
+        Optional<AppUser> appUser = appUserService.getUserByUsername(username);
+        System.out.println(appUser.get().getId());
 
         int duration = createAuctionRequest.getDurationInfo();
 
@@ -106,7 +107,7 @@ public class AuctionService {
                 .minStartBid(createAuctionRequest.getMinStartBid())
                 .startDate(startDate)
                 .auctionImageUrl(createAuctionRequest.getImageUrl())
-                .auctioneer(appUser)
+                .auctioneer(appUser.get())
                 .endDate(endDate)
                 .build();
 
@@ -125,6 +126,21 @@ public class AuctionService {
         auctionRepository.deleteById(Id);
         return auctionRepository.findById(Id).isEmpty();
     }
+
+    public Long getMinStartBid(Long Id){
+        AuctionDto auctionDto = auctionRepository.getAuctionDtoById(Id);
+        return auctionDto.getMinStartBid();
+    }
+
+    public Long getAuctioneerId(Long auctionId) {
+        return auctionRepository.getAuctioneerId(auctionId);
+    }
+
+    public String getAuctionTitle(Long auctionId) {
+        return auctionRepository.getAuctionTitle(auctionId);
+    }
+
+
 
 
 }

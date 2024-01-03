@@ -6,8 +6,13 @@ import com.beed.model.dto.ProfileHistoryBidDto;
 import com.beed.model.entity.AppUser;
 import com.beed.model.entity.Auction;
 import com.beed.model.entity.Bid;
+import com.beed.model.exception.BidforOwnAuctionException;
+import com.beed.model.exception.LowBidThanHighestBidException;
+import com.beed.model.exception.LowBidThanMinStartBidException;
+import com.beed.model.request.CreateBidRequest;
 import com.beed.repository.BidRepository;
 import com.beed.utility.BidUtil;
+import com.google.firebase.messaging.FirebaseMessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -15,6 +20,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.OffsetDateTime;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import static com.beed.utility.AppUserUtil.convertUserEntityToDto;
@@ -27,6 +33,8 @@ public class BidService {
 
     @Autowired
     AppUserService appUserService;
+    AuctionService auctionService;
+    NotificationService notificationService;
 
     public BidDto getBidById(Long Id){
         Bid bid = bidRepository.findById(Id).orElse(null);
@@ -37,8 +45,8 @@ public class BidService {
         }
     }
 
-    public AppUserDto higgestBidderInfo(long auctionId) throws Exception {
-        return convertUserEntityToDto(bidRepository.findHiggestBidder(auctionId));
+    public AppUserDto getHighestBidderInfo(long auctionId) throws Exception {
+        return convertUserEntityToDto(bidRepository.findHighestBidder(auctionId));
     }
 
     public List<BidDto> getBidsByBidder(long bidderId) {
@@ -93,4 +101,63 @@ public class BidService {
         Pageable pageWithTenElements = PageRequest.of(page, 10);
         return bidRepository.getBidsInfos(pageWithTenElements);
     }
+
+    public Long getHighestBidValue(Long auctionId){
+        Bid highestBid = bidRepository.findTopByAuctionOrderByAmountDesc(auctionId);
+        if (highestBid != null) {
+            return highestBid.getAmount();
+        } else {
+            return null;
+        }
+    }
+
+
+    public void addBid(CreateBidRequest createBidRequest, String bidderUsername) throws Exception {
+        Long bidderId = appUserService.getUserIdByUsername(bidderUsername);
+        Long auctioneerId = auctionService.getAuctioneerId(createBidRequest.getAuctionId());
+
+        //checking if user tries to bid its own auction
+        if(Objects.equals(bidderId, auctioneerId)){
+            throw new BidforOwnAuctionException();
+        }
+        else {
+            String deviceTokenAuctioneer = appUserService.getUserDeviceToken(auctioneerId);
+
+            Long highestBidAmount = this.getHighestBidValue(createBidRequest.getAuctionId());
+
+            String auctionTitle = auctionService.getAuctionTitle(createBidRequest.getAuctionId());
+
+            if(highestBidAmount != null) {
+                if (highestBidAmount >= createBidRequest.getBidAmount()){
+                    throw new LowBidThanHighestBidException();
+                }
+                else {
+                    String deviceTokenBidder = bidRepository.getHighestBidderDeviceToken(createBidRequest.getAuctionId());
+                    Bid newBid = BidUtil.createBid(
+                            createBidRequest.getAuctionId(),
+                            bidderId,
+                            createBidRequest.getBidAmount());
+
+                    bidRepository.save(newBid);
+
+                    notificationService.notifyAuctioneer(deviceTokenAuctioneer, createBidRequest.getBidAmount(), auctionTitle);
+                    notificationService.notifyPreviousBidder(deviceTokenBidder, createBidRequest.getBidAmount(), auctionTitle);
+                }
+            }
+            else {
+                if(auctionService.getMinStartBid(createBidRequest.getAuctionId()) > createBidRequest.getBidAmount()){
+                    throw new LowBidThanMinStartBidException();
+                }
+                else{
+                    Bid newBid = BidUtil.createBid(
+                            createBidRequest.getAuctionId(),
+                            bidderId,
+                            createBidRequest.getBidAmount());
+                    bidRepository.save(newBid);
+                    notificationService.notifyAuctioneer(deviceTokenAuctioneer, createBidRequest.getBidAmount(), auctionTitle);
+                }
+            }
+        }
+    }
+
 }

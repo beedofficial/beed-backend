@@ -157,6 +157,7 @@ public class AuctionController {
         try {
             Long auctionId = auctionService.createAuction(createAuctionRequest, authentication.getName());
 
+
             CreateAuctionResponse controllerResponse = CreateAuctionResponse.builder()
                     .responseMessage(CREATE_AUCTION_SUCCESS.getDescription())
                     .responseCode(CREATE_AUCTION_SUCCESS.getCode())
