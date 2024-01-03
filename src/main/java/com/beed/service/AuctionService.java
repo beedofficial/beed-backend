@@ -64,7 +64,13 @@ public class AuctionService {
 
     public List<FeedPageAuctionDto> getFeedPageAuctionList(Integer page) {
         Pageable pageWithTenElements = PageRequest.of(page, 10);
-        return auctionRepository.getFeedPageAuctions(pageWithTenElements);
+        List<FeedPageAuctionDto> feedPageAuctionDtoList = auctionRepository.getFeedPageAuctions(pageWithTenElements);
+        feedPageAuctionDtoList.forEach(auction -> {
+            if (auction.getHighestBid() == null) {
+                auction.setHighestBid(auction.getMinStartBid());
+            }
+        });
+        return feedPageAuctionDtoList;
     }
 
     public List<ProfileHistoryAuctionDto> getProfileHistoryAuctionList(String username, Integer page) {
@@ -88,8 +94,16 @@ public class AuctionService {
 
         Pageable pageWithTenElements = PageRequest.of(page, 10);
 
-        return auctionRepository.getHotAuctionsPageAuctions(
+        List<FeedPageAuctionDto> hotPageAuctionDtoList = auctionRepository.getHotAuctionsPageAuctions(
                 oneHourAgo, oneDayAgo, threeDaysAgo, oneWeekAgo, pageWithTenElements);
+
+        hotPageAuctionDtoList.forEach(auction -> {
+            if (auction.getHighestBid() == null) {
+                auction.setHighestBid(auction.getMinStartBid());
+            }
+        });
+
+        return hotPageAuctionDtoList;
     }
     public Long createAuction(CreateAuctionRequest createAuctionRequest, String username) {
         Optional<AppUser> appUser = appUserService.getUserByUsername(username);
