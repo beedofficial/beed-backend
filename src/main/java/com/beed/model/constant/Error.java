@@ -25,7 +25,8 @@ public enum Error {
     GET_ALL_BIDS_INFO_ERROR(22,"Failed to retrieve bids"),
     UPDATE_USER_RATE_ERROR(23, "Failed to update rate."),
     NOTIFY_AUCTIONEER_FOR_NEW_BID_ERROR(24, "Notification cannot be send."),
-    NOTIFY_PREVIOUS_BIDDER_ERROR(25, "Notification cannot be send.");
+    NOTIFY_PREVIOUS_BIDDER_ERROR(25, "Notification cannot be send."),
+    BIDDING_CLOSED_AUCTION_ERROR(26, "You can't bid closed auction.");
 
     private final int code;
     private final String description;

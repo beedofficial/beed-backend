@@ -114,6 +114,8 @@ public class BidService {
         Long bidderId = appUserService.getUserIdByUsername(bidderUsername);
         Long previousBidderId = 0L;
 
+
+
         if(Objects.equals(bidderId, createBidRequest.getAuctioneerId())) { //checking if user tries to bid its own auction
             throw new BidforOwnAuctionException();
         }
