@@ -68,10 +68,10 @@ public class AuctionController {
     }
 
     @GetMapping("/api/auction/end-date")
-    public ResponseEntity<isAuctionEndResponse> isAuctionEnd(@RequestParam Long id){
+    public ResponseEntity<isAuctionEndResponse> isAuctionEnd(@RequestParam Long id, Authentication authentication){
         try{
             isAuctionEndResponse response = isAuctionEndResponse.builder()
-                    .end(auctionService.isAuctionEnd(id))
+                    .end(auctionService.isAuctionEnd(id, authentication.getName()))
                     .responseCode(IS_AUTION_END_SUCCESS.getCode())
                     .responseMessage(IS_AUTION_END_SUCCESS.getDescription()).build();
             return new ResponseEntity<>(response, HttpStatus.OK);

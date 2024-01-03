@@ -62,4 +62,8 @@ public interface AppUserRepository extends JpaRepository<AppUser, Long> {
             "a.id, a.username, a.name, a.surname, a.rate, a.mail, a.phone, a.profilePhotoUrl) " +
             "FROM AppUser a ")
     List<AppUserDto> getUsersInfos(Pageable pageable);
+
+    @Modifying
+    @Query(value = "UPDATE AppUser u SET u.rate = ((u.rate * u.numOfRaters) + :newRate) / (u.numOfRaters + 1), u.numOfRaters = u.numOfRaters + 1 WHERE u.id = :id")
+    void updateRating(@Param("newRate") Double newRate, @Param("id") Long id);
 }

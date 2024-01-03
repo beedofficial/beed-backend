@@ -1,6 +1,7 @@
 package com.beed.repository;
 
 import com.beed.model.dto.AppUserDto;
+import com.beed.model.dto.BidDto;
 import com.beed.model.dto.ProfileHistoryAuctionDto;
 import com.beed.model.dto.ProfileHistoryBidDto;
 import com.beed.model.entity.AppUser;
@@ -34,10 +35,14 @@ public interface BidRepository extends JpaRepository<Bid,Long>, PagingAndSorting
     Bid findTopByAuctionOrderByAmountDesc(@Param("auctionId") long auctionId);
 
     @Query("SELECT new com.beed.model.dto.ProfileHistoryBidDto(" +
-            "a.id, a.auction.title, a.auction.id, a.amount, a.date) " +
+            "a.id, a.auction.title, a.auction.id, a.amount, a.date, a.auction.auctionImageUrl, a.auction.endDate) " +
             "FROM Bid a " +
             "WHERE a.bidder.id = :bidderId " +
             "ORDER BY a.date DESC")
     List<ProfileHistoryBidDto> getProfileHistoryBids(@Param("bidderId") Long bidderId, Pageable pageable);
 
+    @Query("SELECT new com.beed.model.dto.BidDto(" +
+            "a.id, a.auction, a.bidder, a.amount, a.date) " +
+            "FROM Bid a ")
+    List<BidDto> getBidsInfos(Pageable pageable);
 }

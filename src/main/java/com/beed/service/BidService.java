@@ -85,7 +85,21 @@ public class BidService {
     public List<ProfileHistoryBidDto> getProfileHistoryBids(String username, Integer page) {
         Long userId = appUserService.getUserIdByUsername(username);
         Pageable pageWithTenElements = PageRequest.of(page, 10);
-        return bidRepository.getProfileHistoryBids(userId, pageWithTenElements);
+        List<ProfileHistoryBidDto> profileHistoryBidList = bidRepository.getProfileHistoryBids(userId, pageWithTenElements);
+        profileHistoryBidList.forEach(bid -> {
+            bid.setDone(OffsetDateTime.now().isAfter(bid.getAuctionEndDate()));
+        });
+        return profileHistoryBidList;
+    }
+
+    public boolean deleteBidById(Long Id) throws Exception{
+        bidRepository.deleteById(Id);
+        return bidRepository.findById(Id).isEmpty();
+    }
+
+    public List<BidDto> getBidList(Integer page) throws Exception {
+        Pageable pageWithTenElements = PageRequest.of(page, 10);
+        return bidRepository.getBidsInfos(pageWithTenElements);
     }
 
     public Long getHighestBidValue(Long auctionId){
