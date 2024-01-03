@@ -10,4 +10,6 @@ import lombok.Setter;
 public class CreateBidRequest {
     private Long auctionId;
     private Long bidAmount;
+    private Long auctioneerId;
+    private Long minStartBid;
 }

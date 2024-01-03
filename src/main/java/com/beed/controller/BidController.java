@@ -5,14 +5,10 @@ import com.beed.model.dto.ProfileHistoryBidDto;
 import com.beed.model.exception.LowBidThanHighestBidException;
 import com.beed.model.exception.LowBidThanMinStartBidException;
 import com.beed.model.request.CreateBidRequest;
-import com.beed.model.response.BaseControllerResponse;
-import com.beed.model.response.CreateAuctionResponse;
+import com.beed.model.response.*;
 import com.beed.model.constant.Role;
 import com.beed.model.dto.BidDto;
 import com.beed.model.dto.ProfileHistoryBidDto;
-import com.beed.model.response.DeleteBidResponse;
-import com.beed.model.response.GetBidListResponse;
-import com.beed.model.response.GetProfileHistoryBidsControllerResponse;
 import com.beed.service.BidService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -61,11 +57,12 @@ public class BidController {
     }
 
     @PostMapping("/api/bid/create-bid")
-    public  ResponseEntity<CreateAuctionResponse> createBid(@RequestBody CreateBidRequest createBidRequest, Authentication authentication) {
+    public  ResponseEntity<CreateBidResponse> createBid(@RequestBody CreateBidRequest createBidRequest, Authentication authentication) {
         try {
-            bidService.addBid(createBidRequest, authentication.getName());
+            Long previousBidderId = bidService.addBid(createBidRequest, authentication.getName());
 
-            CreateAuctionResponse controllerResponse = CreateAuctionResponse.builder()
+            CreateBidResponse controllerResponse = CreateBidResponse.builder()
+                    .previousBidderId(previousBidderId)
                     .responseMessage(BID_SUCCESS.getDescription())
                     .responseCode(BID_SUCCESS.getCode())
                     .build();
@@ -73,19 +70,19 @@ public class BidController {
 
 
         } catch (LowBidThanHighestBidException e) {
-            CreateAuctionResponse controllerResponse = CreateAuctionResponse.builder()
+            CreateBidResponse controllerResponse = CreateBidResponse.builder()
                     .responseMessage(BID_LOWER_THAN_HIGHEST_BID.getDescription())
                     .responseCode(BID_LOWER_THAN_HIGHEST_BID.getCode())
                     .build();
             return new ResponseEntity<>(controllerResponse, HttpStatus.BAD_REQUEST);
         } catch (LowBidThanMinStartBidException e) {
-            CreateAuctionResponse controllerResponse = CreateAuctionResponse.builder()
+            CreateBidResponse controllerResponse = CreateBidResponse.builder()
                     .responseMessage(BID_LOWER_THAN_MIN_START_BID.getDescription())
                     .responseCode(BID_LOWER_THAN_MIN_START_BID.getCode())
                     .build();
             return new ResponseEntity<>(controllerResponse, HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
-            CreateAuctionResponse controllerResponse = CreateAuctionResponse.builder()
+            CreateBidResponse controllerResponse = CreateBidResponse.builder()
                     .responseMessage(BID_ERROR.getDescription())
                     .responseCode(BID_ERROR.getCode())
                     .build();

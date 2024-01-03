@@ -20,4 +20,5 @@ public class AuctionDto implements Serializable{
     private OffsetDateTime startDate;
     private OffsetDateTime endDate;
     private Long minStartBid;
+    private Long auctioneerId;
 }

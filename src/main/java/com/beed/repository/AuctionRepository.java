@@ -49,7 +49,7 @@ public interface AuctionRepository extends JpaRepository<Auction,Long>, PagingAn
             @Param("oneWeekAgo") OffsetDateTime oneWeekAgo,
             Pageable pageable);
     @Query("SELECT new com.beed.model.dto.AuctionDto (" +
-            "a.id, a.title, a.description, a.auctionImageUrl, a.auctioneer.username,a.auctioneer.rate, a.startDate, a.endDate, a.minStartBid) " +
+            "a.id, a.title, a.description, a.auctionImageUrl, a.auctioneer.username,a.auctioneer.rate, a.startDate, a.endDate, a.minStartBid, a.auctioneer.id) " +
             "FROM Auction a " +
             "WHERE a.id = :id ")
     AuctionDto getAuctionDtoById(@Param("id") Long id);
