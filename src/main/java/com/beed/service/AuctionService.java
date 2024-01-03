@@ -118,6 +118,10 @@ public class AuctionService {
 
     public AuctionDto getAuctionInfo(Long id){
         AuctionDto auctionDto = auctionRepository.getAuctionDtoById(id);
+        if (bidService.getHighestBidValue(id) != null){
+            Long bidValue = bidService.getHighestBidValue(id);
+            auctionDto.setMinStartBid(bidValue);
+        }
         return auctionDto;
     }
 
