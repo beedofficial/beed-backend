@@ -101,9 +101,9 @@ public class BidService {
     }
 
     public Long getHighestBidValue(Long auctionId){
-        Bid highestBid = bidRepository.findTopByAuctionOrderByAmountDesc(auctionId);
+        Long highestBid = this.getHighestBidValue(auctionId);
         if (highestBid != null) {
-            return highestBid.getAmount();
+            return highestBid;
         } else {
             return null;
         }

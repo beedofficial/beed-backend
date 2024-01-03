@@ -125,6 +125,7 @@ public class AuctionService {
         return auctionDto;
     }
 
+
     public boolean deleteAuctionById(Long Id) throws Exception{
         auctionRepository.deleteById(Id);
         return auctionRepository.findById(Id).isEmpty();
