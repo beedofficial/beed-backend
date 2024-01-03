@@ -44,6 +44,7 @@ public class AuthService {
         AppUser newUser = AppUser.builder()
                 .name(registerRequest.getName())
                 .surname(registerRequest.getSurname())
+                .profilePhotoUrl(registerRequest.getProfilePhotoUrl())
                 .username(registerRequest.getUsername())
                 .mail(registerRequest.getMail())
                 .role(givenRole)
