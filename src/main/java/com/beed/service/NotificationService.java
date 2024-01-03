@@ -10,46 +10,36 @@ import org.springframework.stereotype.Service;
 @Service
 public class NotificationService {
     private final FirebaseMessaging firebaseMessaging;
+    private final AppUserService appUserService;
 
-    public NotificationService(FirebaseMessaging firebaseMessaging) {
+    public NotificationService(FirebaseMessaging firebaseMessaging, AuctionService auctionService, AppUserService appUserService) {
         this.firebaseMessaging = firebaseMessaging;
+        this.appUserService = appUserService;
     }
 
-    /**
-     * Triggers push notification to be sent auctioneer whose auction got new bid.
-     * @param deviceToken Unique token of mobile device of auctioneer.
-     * @param bidAmount Amount of new bid for related auction.
-     * @param auctionName Name of related auction.
-     * @return firebase message id
-     * @throws FirebaseMessagingException if failed
-     */
-    public String notifyAuctioneer(String deviceToken, Long bidAmount, String auctionName) throws FirebaseMessagingException {
+    public String notifyAuctioneer(Long bidAmount, Long auctioneerId, String auctionTitle) throws FirebaseMessagingException {
+        String deviceTokenOfAuctioneer = appUserService.getUserDeviceToken(auctioneerId);
+
         Message message = Message.builder()
                 .setNotification(Notification.builder()
                         .setTitle(NotificationText.NOTIFY_AUCTIONEER.getTitle())
-                        .setBody(NotificationText.NOTIFY_AUCTIONEER.constructBody(auctionName, bidAmount))
+                        .setBody(NotificationText.NOTIFY_AUCTIONEER.constructBody(auctionTitle, bidAmount))
                         .build())
-                .setToken(deviceToken)
+                .setToken(deviceTokenOfAuctioneer)
                 .build();
 
         return firebaseMessaging.send(message);
     }
 
-    /**
-     * Triggers push notification to be sent the bidder who has previous highest bid for related auction.
-     * @param deviceToken Unique token of mobile device of  the bidder who has previous highest bid for related auction.
-     * @param newBidAmount Amount of new bid for related auction.
-     * @param auctionName Name of related auction.
-     * @return firebase message id
-     * @throws FirebaseMessagingException if failed
-     */
-    public String notifyPreviousBidder(String deviceToken, Long newBidAmount, String auctionName) throws FirebaseMessagingException {
+    public String notifyPreviousBidder(Long newBidAmount, Long previousBidderId, String auctionTitle) throws FirebaseMessagingException {
+        String deviceTokenOfPreviousBidder = appUserService.getUserDeviceToken(previousBidderId);
+
         Message message = Message.builder()
                 .setNotification(Notification.builder()
                         .setTitle(NotificationText.NOTIFY_PREVIOUS_BIDDER.getTitle())
-                        .setBody(NotificationText.NOTIFY_PREVIOUS_BIDDER.constructBody(auctionName, newBidAmount))
+                        .setBody(NotificationText.NOTIFY_PREVIOUS_BIDDER.constructBody(auctionTitle, newBidAmount))
                         .build())
-                .setToken(deviceToken)
+                .setToken(deviceTokenOfPreviousBidder)
                 .build();
 
         return firebaseMessaging.send(message);

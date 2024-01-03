@@ -11,5 +11,5 @@ import java.io.Serializable;
 public class CreateBidResponse implements Serializable {
     private int responseCode;
     private String responseMessage;
-    private Long auctionId;
+    private Long previousBidderId;
 }

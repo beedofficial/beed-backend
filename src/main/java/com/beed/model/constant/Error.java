@@ -23,7 +23,9 @@ public enum Error {
     BIDDING_OWNED_AUCTION(20, "You can't bid your own auction"),
     DELETE_BID_ERROR(21, "Failed to delete bid."),
     GET_ALL_BIDS_INFO_ERROR(22,"Failed to retrieve bids"),
-    UPDATE_USER_RATE_ERROR(23, "Failed to update rate.");
+    UPDATE_USER_RATE_ERROR(23, "Failed to update rate."),
+    NOTIFY_AUCTIONEER_FOR_NEW_BID_ERROR(24, "Notification cannot be send."),
+    NOTIFY_PREVIOUS_BIDDER_ERROR(25, "Notification cannot be send.");
 
     private final int code;
     private final String description;

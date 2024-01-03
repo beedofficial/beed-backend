@@ -37,7 +37,6 @@ public class AuctionService {
     @Autowired
     BidService bidService;
 
-
     public boolean isAuctionEnd(long id, String username) throws Exception{
         AppUser user = appUserService.getUserByUsername(username).get();
         if(user.getId() == AuctionEndAuctioneerInfo(id).getId() || user.getId() == bidService.getHighestBidderInfo(id).getId())
@@ -126,21 +125,5 @@ public class AuctionService {
         auctionRepository.deleteById(Id);
         return auctionRepository.findById(Id).isEmpty();
     }
-
-    public Long getMinStartBid(Long Id){
-        AuctionDto auctionDto = auctionRepository.getAuctionDtoById(Id);
-        return auctionDto.getMinStartBid();
-    }
-
-    public Long getAuctioneerId(Long auctionId) {
-        return auctionRepository.getAuctioneerId(auctionId);
-    }
-
-    public String getAuctionTitle(Long auctionId) {
-        return auctionRepository.getAuctionTitle(auctionId);
-    }
-
-
-
 
 }

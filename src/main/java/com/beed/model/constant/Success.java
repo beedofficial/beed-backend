@@ -19,7 +19,9 @@ public enum Success {
     BID_SUCCESS(0, "Successfully added new bid."),
     DELETE_BID_SUCCESS(0, "Successfully deleted bid."),
     GET_ALL_BIDS_INFO_SUCCESS(0, "Successfully retrieved all bids' information."),
-    UPDATE_USER_RATE_SUCCESS(0, "Successfully updated rate.");
+    UPDATE_USER_RATE_SUCCESS(0, "Successfully updated rate."),
+    NOTIFY_AUCTIONEER_FOR_NEW_BID_SUCCESS(0, "Notification is sent successfully."),
+    NOTIFY_PREVIOUS_BIDDER_SUCCESS(0, "Notification is sent successfully.");
 
     private final int code;
     private final String description;

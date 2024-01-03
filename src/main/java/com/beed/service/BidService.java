@@ -33,8 +33,6 @@ public class BidService {
 
     @Autowired
     AppUserService appUserService;
-    AuctionService auctionService;
-    NotificationService notificationService;
 
     public BidDto getBidById(Long Id){
         Bid bid = bidRepository.findById(Id).orElse(null);
@@ -112,40 +110,31 @@ public class BidService {
     }
 
 
-    public void addBid(CreateBidRequest createBidRequest, String bidderUsername) throws Exception {
+    public Long addBid(CreateBidRequest createBidRequest, String bidderUsername) throws Exception {
         Long bidderId = appUserService.getUserIdByUsername(bidderUsername);
-        Long auctioneerId = auctionService.getAuctioneerId(createBidRequest.getAuctionId());
+        Long previousBidderId = 0L;
 
-        //checking if user tries to bid its own auction
-        if(Objects.equals(bidderId, auctioneerId)){
+        if(Objects.equals(bidderId, createBidRequest.getAuctioneerId())) { //checking if user tries to bid its own auction
             throw new BidforOwnAuctionException();
         }
         else {
-            String deviceTokenAuctioneer = appUserService.getUserDeviceToken(auctioneerId);
-
             Long highestBidAmount = this.getHighestBidValue(createBidRequest.getAuctionId());
-
-            String auctionTitle = auctionService.getAuctionTitle(createBidRequest.getAuctionId());
-
             if(highestBidAmount != null) {
                 if (highestBidAmount >= createBidRequest.getBidAmount()){
                     throw new LowBidThanHighestBidException();
                 }
                 else {
-                    String deviceTokenBidder = bidRepository.getHighestBidderDeviceToken(createBidRequest.getAuctionId());
                     Bid newBid = BidUtil.createBid(
                             createBidRequest.getAuctionId(),
                             bidderId,
                             createBidRequest.getBidAmount());
-
                     bidRepository.save(newBid);
 
-                    notificationService.notifyAuctioneer(deviceTokenAuctioneer, createBidRequest.getBidAmount(), auctionTitle);
-                    notificationService.notifyPreviousBidder(deviceTokenBidder, createBidRequest.getBidAmount(), auctionTitle);
+                    previousBidderId = bidRepository.getHighestBidderId(createBidRequest.getAuctionId());
                 }
             }
             else {
-                if(auctionService.getMinStartBid(createBidRequest.getAuctionId()) > createBidRequest.getBidAmount()){
+                if(createBidRequest.getMinStartBid() > createBidRequest.getBidAmount()){
                     throw new LowBidThanMinStartBidException();
                 }
                 else{
@@ -154,10 +143,11 @@ public class BidService {
                             bidderId,
                             createBidRequest.getBidAmount());
                     bidRepository.save(newBid);
-                    notificationService.notifyAuctioneer(deviceTokenAuctioneer, createBidRequest.getBidAmount(), auctionTitle);
                 }
             }
         }
+
+        return previousBidderId;
     }
 
 }
