@@ -112,7 +112,7 @@ public class BidController {
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
+    @RolesAllowed({Role.Admin})
     @GetMapping("/api/bid/get-all-bids")
     public ResponseEntity<GetBidListResponse> getFeedBidPage(@RequestParam Integer page) {
         try {
