@@ -11,6 +11,7 @@ import java.io.Serializable;
 public class FeedPageAuctionDto implements Serializable {
     private Long id;
     private String title;
-    private double minStartBid;
+    private Long minStartBid;
     private String imageUrl;
+    private Long highestBid;
 }

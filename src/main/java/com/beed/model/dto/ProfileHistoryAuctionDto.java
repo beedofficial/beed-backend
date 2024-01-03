@@ -16,13 +16,15 @@ public class ProfileHistoryAuctionDto implements Serializable {
     private OffsetDateTime endDate;
     private boolean isDone;
     private String imageUrl;
+    private Long highestBid;
 
-    public ProfileHistoryAuctionDto(Long id, String title, double minStartBid, OffsetDateTime endDate, String imageUrl) {
+    public ProfileHistoryAuctionDto(Long id, String title, double minStartBid, OffsetDateTime endDate, String imageUrl, Long highestBid) {
         this.id = id;
         this.title = title;
         this.minStartBid = minStartBid;
         this.endDate = endDate;
         this.imageUrl = imageUrl;
+        this.highestBid = highestBid;
     }
 }
 
