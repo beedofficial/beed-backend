@@ -126,13 +126,13 @@ public class BidService {
                     throw new LowBidThanHighestBidException();
                 }
                 else {
+                    previousBidderId = bidRepository.getHighestBidderId(createBidRequest.getAuctionId());
+
                     Bid newBid = BidUtil.createBid(
                             createBidRequest.getAuctionId(),
                             bidderId,
                             createBidRequest.getBidAmount());
                     bidRepository.save(newBid);
-
-                    previousBidderId = bidRepository.getHighestBidderId(createBidRequest.getAuctionId());
                 }
             }
             else {
