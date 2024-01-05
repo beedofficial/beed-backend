@@ -3,6 +3,7 @@ package com.beed.service;
 import com.beed.model.dto.AppUserDto;
 import com.beed.model.entity.AppUser;
 import com.beed.repository.AppUserRepository;
+import com.beed.utility.AppUserUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -30,15 +31,23 @@ public class AppUserService {
     }
 
     @Transactional
-    public void updateUserById(AppUserDto userDto) throws Exception {
-        userRepository.updateAppUser(userDto.getName(), userDto.getSurname()
-                , userDto.getMail(), userDto.getPhone()
-                , userDto.getUsername(),userDto.getId());
-        if (userDto.getRate() != null) {
-            userRepository.updateAppUserRate(userDto.getRate(),userDto.getId());
+    public void updateUser(AppUserDto userDto, String username) throws Exception {
+        if (username != null) {
+            Long userId = userRepository.getUserIdByUsername(username);
+            userDto.setId(userId);
+        }
+
+        AppUserDto currentUserDto = this.getUserByID(userDto.getId());
+        AppUserDto userDtoFilled = AppUserUtil.fillBlank(userDto, currentUserDto);
+
+        userRepository.updateAppUser(userDtoFilled.getName(), userDtoFilled.getSurname()
+                , userDtoFilled.getMail(), userDtoFilled.getPhone()
+                , userDtoFilled.getUsername(),userDtoFilled.getId());
+        if (userDtoFilled.getRate() != null) {
+            userRepository.updateAppUserRate(userDtoFilled.getRate(), userDtoFilled.getId());
         }
         if (userDto.getProfilePhotoUrl() != null) {
-            userRepository.updateAppUserPhoto(userDto.getProfilePhotoUrl(),userDto.getId());
+            userRepository.updateAppUserPhoto(userDtoFilled.getProfilePhotoUrl(), userDtoFilled.getId());
         }
     }
 

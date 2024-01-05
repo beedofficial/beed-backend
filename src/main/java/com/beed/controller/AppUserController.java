@@ -99,18 +99,11 @@ public class AppUserController {
     @PutMapping("/api/appuser/update-user-info")
     public ResponseEntity<UpdateUserInfoPageControllerResponse> updateUserInfoPage(@RequestBody AppUserDto userDto) {
         try {
-            Long id = userDto.getId();
-            AppUserDto oldUser = appUserService.getUserByID(id);
-            AppUserDto userDtoFilled = appUserUtil.fillBlank(userDto, oldUser);
-
-            appUserService.updateUserById(userDtoFilled);
-
-            AppUserDto userUpdated = appUserService.getUserByID(id);
+            appUserService.updateUser(userDto, null);
 
             UpdateUserInfoPageControllerResponse controllerResponse = UpdateUserInfoPageControllerResponse.builder()
                     .responseMessage(UPDATE_USER_INFO_SUCCESS.getDescription())
                     .responseCode(UPDATE_USER_INFO_SUCCESS.getCode())
-                    .updatedUser(userUpdated)
                     .build();
 
             return new ResponseEntity<>(controllerResponse, HttpStatus.OK);
@@ -124,6 +117,29 @@ public class AppUserController {
 
             return new ResponseEntity<>(controllerResponse, HttpStatus.INTERNAL_SERVER_ERROR);
 
+        }
+    }
+
+    @PutMapping("/api/appuser/update-own-user-info")
+    public ResponseEntity<UpdateUserInfoPageControllerResponse> updateOwnUserInfoPage(@RequestBody AppUserDto userDto, Authentication authentication) {
+        try {
+            appUserService.updateUser(userDto, authentication.getName());
+
+            UpdateUserInfoPageControllerResponse controllerResponse = UpdateUserInfoPageControllerResponse.builder()
+                    .responseMessage(UPDATE_USER_INFO_SUCCESS.getDescription())
+                    .responseCode(UPDATE_USER_INFO_SUCCESS.getCode())
+                    .build();
+
+            return new ResponseEntity<>(controllerResponse, HttpStatus.OK);
+
+        } catch (Exception e) {
+
+            UpdateUserInfoPageControllerResponse controllerResponse = UpdateUserInfoPageControllerResponse.builder()
+                    .responseMessage(UPDATE_USER_INFO_ERROR.getDescription() + ":" + e.toString())
+                    .responseCode(UPDATE_USER_INFO_ERROR.getCode())
+                    .build();
+
+            return new ResponseEntity<>(controllerResponse, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
