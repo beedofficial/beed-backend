@@ -91,9 +91,9 @@ public class BidController {
 
     @RolesAllowed({Role.Admin})
     @DeleteMapping("/api/bid/delete-bid")
-    public ResponseEntity<DeleteBidResponse> deleteBidAdmin(@RequestParam Long Id){
+    public ResponseEntity<DeleteBidResponse> deleteBidAdmin(@RequestParam Long id){
         try {
-            bidService.deleteBidById(Id);
+            bidService.deleteBidById(id);
             DeleteBidResponse response = DeleteBidResponse.builder()
                     .responseMessage(DELETE_BID_SUCCESS.getDescription())
                     .responseCode(DELETE_BID_SUCCESS.getCode())
