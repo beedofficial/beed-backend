@@ -140,9 +140,9 @@ public class AuctionService {
     }
 
 
-    public boolean deleteAuctionById(Long Id) throws Exception{
-        auctionRepository.deleteById(Id);
-        return auctionRepository.findById(Id).isEmpty();
+    public boolean deleteAuctionById(Long id) throws Exception{
+        auctionRepository.deleteById(id);
+        return auctionRepository.findById(id).isEmpty();
     }
 
 }

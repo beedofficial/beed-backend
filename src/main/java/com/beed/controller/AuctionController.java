@@ -177,9 +177,9 @@ public class AuctionController {
 
     @RolesAllowed({Role.Admin})
     @DeleteMapping("/api/auction/delete-auction")
-    public ResponseEntity<DeleteAuctionResponse> deleteAuctionAdmin(@RequestParam Long Id){
+    public ResponseEntity<DeleteAuctionResponse> deleteAuctionAdmin(@RequestParam Long id){
         try {
-            auctionService.deleteAuctionById(Id);
+            auctionService.deleteAuctionById(id);
             DeleteAuctionResponse response = DeleteAuctionResponse.builder()
                     .responseMessage(DELETE_AUCTION_SUCCESS.getDescription())
                     .responseCode(DELETE_AUCTION_SUCCESS.getCode())
