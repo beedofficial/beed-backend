@@ -27,7 +27,7 @@ public class Auction {
     @Column(name = "description", nullable = false)
     private String description;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "auctioneer_id")
     private AppUser auctioneer;
 
