@@ -42,4 +42,7 @@ public class Auction {
 
     @Column(name = "min_start_bid", nullable = false)
     private Long minStartBid;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "auction", cascade = CascadeType.ALL)
+    private Set<Bid> bids;
 }
