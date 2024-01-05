@@ -39,9 +39,6 @@ public class AppUserUtil {
     }
 
     public static  AppUserDto fillBlank(AppUserDto userDto, AppUserDto oldUser){
-        if(oldUser != null){
-            userDto.setId(oldUser.getId());
-        }
         if(userDto.getName() == null){
             userDto.setName(oldUser.getName());
         }
