@@ -1,7 +1,6 @@
 package com.beed.controller;
 
-import com.beed.model.dto.BidDto;
-import com.beed.model.dto.ProfileHistoryBidDto;
+import com.beed.model.dto.*;
 import com.beed.model.exception.LowBidThanHighestBidException;
 import com.beed.model.exception.LowBidThanMinStartBidException;
 import com.beed.model.request.CreateBidRequest;
@@ -111,12 +110,12 @@ public class BidController {
     }
     @RolesAllowed({Role.Admin})
     @GetMapping("/api/bid/get-all-bids")
-    public ResponseEntity<GetBidListResponse> getFeedBidPage(@RequestParam Integer page) {
+    public ResponseEntity<GetAllBidListResponse> getFeedBidPage(@RequestParam Integer page) {
         try {
-            List<BidDto> bidDtos = bidService.getBidList(page);
+            List<AdminBidDto> bidDtos = bidService.getBidList(page);
 
-            GetBidListResponse controllerResponse = GetBidListResponse.builder()
-                    .bidDtoList(bidDtos)
+            GetAllBidListResponse controllerResponse = GetAllBidListResponse.builder()
+                    .adminBidDtoList(bidDtos)
                     .responseMessage(GET_ALL_BIDS_INFO_SUCCESS.getDescription())
                     .responseCode(GET_ALL_BIDS_INFO_SUCCESS.getCode())
                     .build();
@@ -124,7 +123,7 @@ public class BidController {
             return new ResponseEntity<>(controllerResponse, HttpStatus.OK);
 
         } catch (Exception e) {
-            GetBidListResponse controllerResponse = GetBidListResponse.builder()
+            GetAllBidListResponse controllerResponse = GetAllBidListResponse.builder()
                     .responseMessage(GET_ALL_BIDS_INFO_ERROR.getDescription() + ":" + e.toString())
                     .responseCode(GET_ALL_BIDS_INFO_ERROR.getCode())
                     .build();

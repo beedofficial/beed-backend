@@ -1,5 +1,6 @@
 package com.beed.service;
 
+import com.beed.model.dto.AdminBidDto;
 import com.beed.model.dto.AppUserDto;
 import com.beed.model.dto.BidDto;
 import com.beed.model.dto.ProfileHistoryBidDto;
@@ -95,7 +96,7 @@ public class BidService {
         return bidRepository.findById(Id).isEmpty();
     }
 
-    public List<BidDto> getBidList(Integer page) throws Exception {
+    public List<AdminBidDto> getBidList(Integer page) throws Exception {
         Pageable pageWithTenElements = PageRequest.of(page, 10);
         return bidRepository.getBidsInfos(pageWithTenElements);
     }
