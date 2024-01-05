@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import static com.beed.utility.AppUserUtil.*;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -46,7 +47,7 @@ public class AppUserService {
         if (userDtoFilled.getRate() != null) {
             userRepository.updateAppUserRate(userDtoFilled.getRate(), userDtoFilled.getId());
         }
-        if (userDto.getProfilePhotoUrl() != null) {
+        if (!Objects.equals(userDtoFilled.getProfilePhotoUrl(), "")) {
             userRepository.updateAppUserPhoto(userDtoFilled.getProfilePhotoUrl(), userDtoFilled.getId());
         }
     }
